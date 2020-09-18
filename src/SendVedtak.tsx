@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import { useAppStore } from './stores/app-store'
 import { VedtakDto } from './types/Vedtak'
+import env from './utils/environment'
 
 
 function SendVedtak() {
@@ -52,14 +53,14 @@ function SendVedtak() {
                 }
                 try {
                     setFetching(true)
-                    const res = await fetch(` http://localhost:6969/aapen-helse-sporbar/${fodselsnummer}`, {
+                    const res = await fetch(`${env.opprettVedtakRoot}/${fodselsnummer}`, {
                         method: 'POST',
                         credentials: 'include',
                         body: JSON.stringify(genererVedtak()),
                         headers: { 'Content-Type': 'application/json' }
                     })
                     if (res.ok) {
-                        window.alert('Vedtak publisert på kafka')
+                        window.alert('Vedtak opprettet')
                     } else {
                         window.alert('Noe gikk galt ved publisering av vedtak')
                     }

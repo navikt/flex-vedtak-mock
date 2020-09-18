@@ -36,3 +36,5 @@ spec:
       value: "q1"
     - name: SYFOAPI_ROOT
       value: "https://syfoapi.dev.nav.no"
+    - name: OPPRETT_VEDTAK_ROOT
+      value: "https://spinnsyn-backend-mock-proxy.dev.nav.no/api/v1/mock/vedtak"

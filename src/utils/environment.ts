@@ -25,6 +25,10 @@ class Environment {
     get syfoapiRoot() {
         return this.env.SYFOAPI_ROOT
     }
+
+    get opprettVedtakRoot() {
+        return this.env.OPPRETT_VEDTAK_ROOT
+    }
 }
 
 const env = new Environment()
