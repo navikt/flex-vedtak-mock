@@ -1,10 +1,21 @@
-FROM node
+FROM nginx:alpine
 
-WORKDIR /usr/src/app
-COPY . .
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY /build /usr/share/nginx/html
 
-RUN npm install -g serve
 
-EXPOSE 5000
+# Copy .env file and shell script to container
+WORKDIR /usr/share/nginx/html
+COPY ./env.sh .
+COPY .env .
 
-CMD ["serve", "-s", "build"]
+# Add bash
+RUN apk add --no-cache bash
+
+# Make our shell script executable
+RUN chmod +x env.sh
+
+EXPOSE 8080
+
+
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]

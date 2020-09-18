@@ -1,6 +1,6 @@
-echo "Bygger vedtak-generator latest for docker compose utvikling"
+echo "Bygger flex-vedtak-mock latest for docker compose utvikling"
 
 npm i
 npm run build
 
-docker build . -t vedtak-generator:latest
+docker build . -t flex-vedtak-mock:latest
