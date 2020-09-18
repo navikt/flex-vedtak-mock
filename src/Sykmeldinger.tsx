@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
+import Vis from './components/vis'
 import { useAppStore } from './stores/app-store'
 import { Sykmelding } from './types/Sykmelding'
-import Vis from "./components/vis";
-import env from "./utils/environment";
+import env from './utils/environment'
 
 
 function skapTekstFraSykmelding(sykmelding: Sykmelding): string {
