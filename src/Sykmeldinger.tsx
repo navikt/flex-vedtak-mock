@@ -23,7 +23,7 @@ function Sykmeldinger() {
 
     useEffect(() => {
         async function fetchData() {
-            const data = await fetch(`${env.sykmeldingerBackendProxyRoot}/sykmeldinger-backend/api/v1/sykmeldinger`, {
+            const data = await fetch(`${env.sykmeldingerBackendProxyRoot}/api/v1/sykmeldinger`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }

@@ -16,7 +16,7 @@ function Inntektsmeldinger() {
 
     useEffect(() => {
         async function fetchData() {
-            const data = await fetch(`${env.flexinntektsmeldingRoot}/flex-inntektsmelding/api/v1/inntektsmeldinger`, {
+            const data = await fetch(`${env.flexinntektsmeldingRoot}/api/v1/inntektsmeldinger`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }
