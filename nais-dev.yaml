@@ -25,3 +25,14 @@ spec:
     path: internal/isAlive
   readiness:
     path: internal/isReady
+  env:
+    - name: SYKMELDINGER_BACKEND_PROXY_ROOT
+      value: "https://sykmeldinger-backend-proxy.dev.nav.no"
+    - name: SPINNSYN_ROOT
+      value: "https://spinnsyn-backend-proxy.dev.nav.no"
+    - name: FLEXINNTEKTSMELDING_ROOT
+      value: "https://flexinntektsmelding-proxy.dev.nav.no"
+    - name: ENVIRONMENT
+      value: "q1"
+    - name: SYFOAPI_ROOT
+      value: "https://syfoapi.dev.nav.no"

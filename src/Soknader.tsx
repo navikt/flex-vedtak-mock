@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useAppStore } from './stores/app-store'
 import { Soknad } from './types/Soknad'
+import env from './utils/environment'
 
 
 function skapTekstFraSoknad(soknad: Soknad): string {
@@ -17,7 +18,7 @@ function Soknader() {
 
     useEffect(() => {
         async function fetchData() {
-            const data = await fetch(' http://localhost:6969/syfosoknad/api/soknader', {
+            const data = await fetch(`${env.syfoapiRoot}/syfosoknad/api/soknader`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { useAppStore } from './stores/app-store'
 import { Sykmelding } from './types/Sykmelding'
+import Vis from "./components/vis";
+import env from "./utils/environment";
 
 
 function skapTekstFraSykmelding(sykmelding: Sykmelding): string {
@@ -21,7 +23,7 @@ function Sykmeldinger() {
 
     useEffect(() => {
         async function fetchData() {
-            const data = await fetch(' http://localhost:6969/sykmeldinger-backend/api/v1/sykmeldinger', {
+            const data = await fetch(`${env.sykmeldingerBackendProxyRoot}/sykmeldinger-backend/api/v1/sykmeldinger`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }
@@ -31,7 +33,7 @@ function Sykmeldinger() {
                 setSykmeldinger(sykmeldinger.map((json: any) => new Sykmelding(json)))
             } else {
                 if (data.status === 401) {
-                    window.alert('Du må logge inn i ditt sykefravaer for å få hentet sykmeldinger')
+                    window.alert('Du må logge inn i ditt sykefravaer etc for å få hentet sykmeldinger')
                 } else {
                     window.alert('Oops, noe gikk galt ved henting av sykmeldinger')
                 }
@@ -63,7 +65,9 @@ function Sykmeldinger() {
                     </div>
                 )
             })}
-            <a href={'http://localhost:1349/'} target={'blank'}> Opprett ny sykmelding </a>
+            <Vis hvis={env.isDev}>
+                <a href={'http://localhost:1349/'} target={'blank'}> Opprett ny sykmelding </a>
+            </Vis>
         </div>
     )
 }
