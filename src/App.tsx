@@ -4,6 +4,7 @@ import Datoer from './Datoer'
 import Fodselsnummer from './Fodselsnummer'
 import Inntektsmeldinger from './Inntektsmeldinger'
 import SendVedtak from './SendVedtak'
+import SlettVedtak from './SlettVedtak'
 import Soknader from './Soknader'
 import StoreProvider from './stores/store-provider'
 import Sykedager from './Sykedager'
@@ -31,6 +32,7 @@ function App() {
                 <Utbetalinger />
                 <Sykedager />
                 <SendVedtak />
+                <SlettVedtak />
             </div>
         </StoreProvider>
     )

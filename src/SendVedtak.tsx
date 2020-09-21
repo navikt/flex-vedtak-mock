@@ -60,7 +60,8 @@ function SendVedtak() {
                         headers: { 'Content-Type': 'application/json' }
                     })
                     if (res.ok) {
-                        window.alert('Vedtak opprettet')
+                        const tekst = await res.text()
+                        window.alert(tekst)
                     } else {
                         window.alert('Noe gikk galt ved publisering av vedtak')
                     }

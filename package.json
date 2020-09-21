@@ -21,8 +21,9 @@
     "uuid": "^8.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run generate-env-config && react-scripts start",
     "build": "react-scripts build",
+    "generate-env-config": "chmod +x ./env.sh && ./env.sh && mv env-config.js ./public/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext=ts,tsx src",
