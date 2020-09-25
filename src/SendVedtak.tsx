@@ -1,6 +1,8 @@
 import cloneDeep from 'lodash.clonedeep'
 import React, { useState } from 'react'
 
+import { skapSprefUtbetaling } from './SprefUtbetaling'
+import { skapSpUtbetaling } from './SpUtbetaling'
 import { useAppStore } from './stores/app-store'
 import { VedtakDto } from './types/Vedtak'
 import env from './utils/environment'
@@ -9,14 +11,15 @@ import env from './utils/environment'
 function SendVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const { utbetalinger, fodselsnummer, valgteSykmeldinger, valgteSoknader, valgteInntektsmeldinger, forbrukteSykedager, gjenstaendeSykedager, fomTom } = useAppStore()
+    const { fodselsnummer, valgteSykmeldinger, dagsats, valgteSoknader, valgteInntektsmeldinger, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefvariant } = useAppStore()
 
     const genererVedtak = (): VedtakDto => {
+
         const vedtak: VedtakDto = {
             fom: fomTom.fom,
             tom: fomTom.tom,
             forbrukteSykedager,
-            utbetalinger: cloneDeep(utbetalinger),
+            utbetalinger: [ cloneDeep(skapSprefUtbetaling(dagsats, fomTom, valgteSoknader, sprefvariant)), cloneDeep(skapSpUtbetaling(fodselsnummer)) ],
             gjenståendeSykedager: gjenstaendeSykedager,
             dokumenter: []
         }

@@ -19,14 +19,20 @@ function Datoer() {
             <div>
                 <label>FOM:
                     <input value={fomTom.fom.toString()} type={'date'} onChange={(e) => {
-                        setFomTom({ fom: LocalDate.parse(e.target.value), tom: fomTom.tom })
+                        const fom = LocalDate.parse(e.target.value)
+                        if (!fom.isAfter(fomTom.tom)) {
+                            setFomTom({ fom: fom, tom: fomTom.tom })
+                        }
                     }} />
                 </label>
             </div>
             <div style={{ paddingTop: '1em' }}>
                 <label>TOM:
                     <input value={fomTom.tom.toString()} type={'date'} onChange={(e) => {
-                        setFomTom({ tom: LocalDate.parse(e.target.value), fom: fomTom.fom })
+                        const tom = LocalDate.parse(e.target.value)
+                        if (!tom.isBefore(fomTom.fom)) {
+                            setFomTom({ tom: tom, fom: fomTom.fom })
+                        }
                     }} />
                 </label>
             </div>

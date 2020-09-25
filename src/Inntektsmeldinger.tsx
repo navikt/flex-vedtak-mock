@@ -10,7 +10,7 @@ function skapTekstFraInntektsmelding(im: Inntektsmelding): string {
 }
 
 function Inntektsmeldinger() {
-    const { valgteInntektsmeldinger, setValgteInntektsmeldinger } = useAppStore()
+    const { valgteInntektsmeldinger, setValgteInntektsmeldinger, setFikk401, fikk401 } = useAppStore()
 
     const [ inntektsmeldinger, setInntektsmeldinger ] = useState<Inntektsmelding[]>([])
 
@@ -26,16 +26,20 @@ function Inntektsmeldinger() {
                 setInntektsmeldinger(im)
             } else {
                 if (data.status === 401) {
-                    window.alert('Du må logge inn i ditt sykefravaer for å få hentet inntektsmeldinger')
+                    setFikk401(true)
                 } else {
-                    window.alert('Oops, noe gikk galt ved henting av inntekstmeldinger')
+                    window.alert('Oops, noe gikk galt ved henting av inntektsmeldinger')
                 }
             }
         }
 
-        fetchData().catch((e: any) => window.alert(`Ooops ved henting av inntekstmeldinger! ${e}`))
+        fetchData().catch((e: any) => window.alert(`Ooops ved henting av inntektsmeldinger! ${e}`))
 
-    }, [ setValgteInntektsmeldinger ])
+    }, [ setValgteInntektsmeldinger, setFikk401 ])
+
+    if(fikk401){
+        return null
+    }
 
     return (
         <div style={{ border: '1px solid', paddingBottom: '1em', paddingLeft: '1em' }}>

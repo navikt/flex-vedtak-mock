@@ -12,7 +12,7 @@ function skapTekstFraSoknad(soknad: Soknad): string {
 
 function Soknader() {
 
-    const { setValgteSoknader, valgteSoknader, valgteSykmeldinger } = useAppStore()
+    const { setValgteSoknader, valgteSoknader, valgteSykmeldinger, setFikk401, fikk401 } = useAppStore()
 
     const [ soknader, setSoknader ] = useState<Soknad[]>([])
 
@@ -28,7 +28,7 @@ function Soknader() {
                 setSoknader(soknader)
             } else {
                 if (data.status === 401) {
-                    window.alert('Du må logge inn i ditt sykefravaer for å få hentet sykepengesøknader')
+                    setFikk401(true)
                 } else {
                     window.alert('Oops, noe gikk galt ved henting av sykepengesøknader')
                 }
@@ -37,7 +37,11 @@ function Soknader() {
 
         fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
 
-    }, [ setValgteSoknader, valgteSykmeldinger ])
+    }, [ setValgteSoknader, valgteSykmeldinger, setFikk401 ])
+
+    if(fikk401){
+        return null
+    }
 
     return (
         <div style={{ border: '1px solid', paddingBottom: '1em', paddingLeft: '1em' }}>
