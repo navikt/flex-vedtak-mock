@@ -17,7 +17,7 @@ function skapTekstFraSykmelding(sykmelding: Sykmelding): string {
 }
 
 function Sykmeldinger() {
-    const { setValgteSykmeldinger, valgteSykmeldinger } = useAppStore()
+    const { setValgteSykmeldinger, valgteSykmeldinger, setFikk401, fikk401 } = useAppStore()
 
     const [ sykmeldinger, setSykmeldinger ] = useState<Sykmelding[]>([])
 
@@ -33,7 +33,7 @@ function Sykmeldinger() {
                 setSykmeldinger(sykmeldinger.map((json: any) => new Sykmelding(json)))
             } else {
                 if (data.status === 401) {
-                    window.alert('Du må logge inn i ditt sykefravaer etc for å få hentet sykmeldinger')
+                    setFikk401(true)
                 } else {
                     window.alert('Oops, noe gikk galt ved henting av sykmeldinger')
                 }
@@ -42,8 +42,11 @@ function Sykmeldinger() {
 
         fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
 
-    }, [ setValgteSykmeldinger ])
+    }, [ setValgteSykmeldinger, setFikk401 ])
 
+    if(fikk401){
+        return null
+    }
     return (
         <div style={{ border: '1px solid', paddingBottom: '1em', paddingLeft: '1em' }}>
             <h2>Sykmeldinger</h2>
