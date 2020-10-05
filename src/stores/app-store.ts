@@ -18,6 +18,8 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
     const [ fodselsnummer, setFodselsnummer ] = useState<string>('')
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
+    const [ automatiskBehandling, setAutomatiskBehandling ] = useState<boolean>(true)
+
     const [ fomTom, setFomTom ] = useState<FomTom>({
         fom: LocalDate.now().minusDays(14),
         tom: LocalDate.now().minusDays(2)
@@ -33,6 +35,7 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
         fodselsnummer, setFodselsnummer,
         forbrukteSykedager, setForbrukteSykedager,
         gjenstaendeSykedager, setGjenstaendeSykedager,
+        automatiskBehandling, setAutomatiskBehandling,
         fomTom, setFomTom
     }
 })
