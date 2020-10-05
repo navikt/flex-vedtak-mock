@@ -1,6 +1,7 @@
 import { LocalDate } from '@js-joda/core'
 
 export interface VedtakDto {
+    automatiskBehandling: boolean;
     fom: LocalDate;
     tom: LocalDate;
     forbrukteSykedager: number;

@@ -1,5 +1,6 @@
 import React from 'react'
 
+import AutomatiskBehandling from './AutomatiskBehandling'
 import Dagsats from './Dagsats'
 import Datoer from './Datoer'
 import FeilmeldingInnlogging from './FeilmeldingInnlogging'
@@ -34,6 +35,7 @@ function App() {
                 <Inntektsmeldinger />
                 <Datoer />
                 <Dagsats />
+                <AutomatiskBehandling />
                 <SprefUtbetaling />
                 <SpUtbetaling />
                 <Sykedager />
