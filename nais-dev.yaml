@@ -31,7 +31,7 @@ spec:
     - name: SPINNSYN_ROOT
       value: "https://spinnsyn-backend-proxy.dev.nav.no"
     - name: FLEXINNTEKTSMELDING_ROOT
-      value: "https://flexinntektsmelding-proxy.dev.nav.no"
+      value: "https://flex-inntektsmelding-proxy.dev.nav.no"
     - name: ENVIRONMENT
       value: "q1"
     - name: SYFOAPI_ROOT
