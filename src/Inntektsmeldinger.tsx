@@ -6,7 +6,7 @@ import { Inntektsmelding } from './types/Inntektsmelding'
 import env from './utils/environment'
 
 function skapTekstFraInntektsmelding(im: Inntektsmelding): string {
-    return `${im.id} - ${im.fnr}`
+    return `${im.id} - Månedsinntekt: ${im.månedsinntekt}`
 }
 
 function Inntektsmeldinger() {

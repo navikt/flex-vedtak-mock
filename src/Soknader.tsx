@@ -5,9 +5,9 @@ import { Soknad } from './types/Soknad'
 import env from './utils/environment'
 
 
-function skapTekstFraSoknad(soknad: Soknad): string {
+function skapTekstFraSoknad(soknad: Soknad, valgtSykmelding: boolean): string {
 
-    return `${soknad.id} ${soknad.status} ${soknad.soknadstype} ${soknad.fom} - ${soknad.tom} `
+    return `${soknad.id} ${soknad.status} ${soknad.soknadstype} ${soknad.fom} - ${soknad.tom} ${valgtSykmelding ? ' VALGT SYKMELDING' : ''}`
 }
 
 function Soknader() {
@@ -39,7 +39,7 @@ function Soknader() {
 
     }, [ setValgteSoknader, valgteSykmeldinger, setFikk401 ])
 
-    if(fikk401){
+    if (fikk401) {
         return null
     }
 
@@ -47,7 +47,6 @@ function Soknader() {
         <div style={{ border: '1px solid', paddingBottom: '1em', paddingLeft: '1em' }}>
             <h2>Sykepengesøknader</h2>
             {soknader
-                .filter(sok => valgteSykmeldinger.find(syk => syk.id === sok.sykmeldingId))
                 .map((soknad) => {
                     return (
                         <div key={soknad.id}>
@@ -60,7 +59,7 @@ function Soknader() {
                                         setValgteSoknader(valgteSoknader.filter(sok => sok.id !== event.target.value))
                                     }
                                 })} />
-                                {skapTekstFraSoknad(soknad)}
+                                {skapTekstFraSoknad(soknad, valgteSykmeldinger.find(syk => syk.id === soknad.sykmeldingId) != null)}
                             </label>
 
                         </div>

@@ -45,10 +45,15 @@ class MedisinskArsak {
     arsak: MedisinskArsakType[];
 
     constructor(medisinskArsak: any) {
-        this.beskrivelse = medisinskArsak.beskrivelse
-        this.arsak = medisinskArsak.arsak.map(
-            (arsak: string) => MedisinskArsakType[arsak as keyof typeof MedisinskArsakType],
-        )
+        if (medisinskArsak != null) {
+            this.beskrivelse = medisinskArsak.beskrivelse
+            this.arsak = medisinskArsak.arsak.map(
+                (arsak: string) => MedisinskArsakType[arsak as keyof typeof MedisinskArsakType],
+            )
+        } else {
+            this.beskrivelse = ''
+            this.arsak = []
+        }
     }
 }
 
@@ -170,10 +175,12 @@ export class AnnenFraversArsak {
     grunn?: AnnenFraverGrunn[];
 
     constructor(annenFraversArsak: any) {
-        this.beskrivelse = annenFraversArsak.beskrivelse
-        this.grunn = annenFraversArsak.grunn.map(
-            (grunn: string) => AnnenFraverGrunn[grunn as keyof typeof AnnenFraverGrunn],
-        )
+        if (annenFraversArsak != null) {
+            this.beskrivelse = annenFraversArsak.beskrivelse
+            this.grunn = annenFraversArsak.grunn.map(
+                (grunn: string) => AnnenFraverGrunn[grunn as keyof typeof AnnenFraverGrunn],
+            )
+        }
     }
 }
 
