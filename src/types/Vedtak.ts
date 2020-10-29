@@ -4,6 +4,7 @@ export interface VedtakDto {
     automatiskBehandling: boolean;
     fom: LocalDate;
     tom: LocalDate;
+    månedsinntekt: number;
     forbrukteSykedager: number;
     gjenståendeSykedager: number;
     utbetalinger: UtbetalingDto[];

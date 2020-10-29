@@ -11,12 +11,13 @@ import env from './utils/environment'
 function SendVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const { fodselsnummer, automatiskBehandling, valgteSykmeldinger, dagsats, valgteSoknader, valgteInntektsmeldinger, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefvariant } = useAppStore()
+    const { fodselsnummer, månedsinntekt, automatiskBehandling, valgteSykmeldinger, dagsats, valgteSoknader, valgteInntektsmeldinger, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefvariant } = useAppStore()
 
     const genererVedtak = (): VedtakDto => {
 
         const vedtak: VedtakDto = {
             automatiskBehandling,
+            månedsinntekt,
             fom: fomTom.fom,
             tom: fomTom.tom,
             forbrukteSykedager,
