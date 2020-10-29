@@ -10,6 +10,7 @@ import { FomTom } from '../types/Vedtak'
 
 export const [ AppStoreProvider, useAppStore ] = constate(() => {
     const [ fikk401, setFikk401 ] = useState<boolean>(false)
+    const [ månedsinntekt, setMånedsinntekt ] = useState<number>(37500)
     const [ dagsats, setDagsats ] = useState<number>(1404)
     const [ sprefvariant, setSprefvariant ] = useState<SprefVariant>('100%')
     const [ valgteSykmeldinger, setValgteSykmeldinger ] = useState<Sykmelding[]>([])
@@ -28,6 +29,7 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
     return {
         fikk401, setFikk401,
         dagsats, setDagsats,
+        månedsinntekt, setMånedsinntekt,
         sprefvariant, setSprefvariant,
         valgteSykmeldinger, setValgteSykmeldinger,
         valgteSoknader, setValgteSoknader,

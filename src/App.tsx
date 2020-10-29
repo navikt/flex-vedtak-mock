@@ -6,6 +6,7 @@ import Datoer from './Datoer'
 import FeilmeldingInnlogging from './FeilmeldingInnlogging'
 import Fodselsnummer from './Fodselsnummer'
 import Inntektsmeldinger from './Inntektsmeldinger'
+import Månedsinntekt from './Månedsinntekt'
 import SendVedtak from './SendVedtak'
 import SlettVedtak from './SlettVedtak'
 import Soknader from './Soknader'
@@ -35,6 +36,7 @@ function App() {
                 <Inntektsmeldinger />
                 <Datoer />
                 <Dagsats />
+                <Månedsinntekt />
                 <AutomatiskBehandling />
                 <SprefUtbetaling />
                 <SpUtbetaling />
