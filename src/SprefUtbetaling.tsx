@@ -14,6 +14,7 @@ function SprefUtbetaling() {
     const { dagsats, fomTom, valgteSoknader, sprefvariant, setSprefvariant, forbrukteSykedager, setForbrukteSykedager } = useAppStore()
     const [ utbetaling, setUtbetaling ] = useState<UtbetalingDto>(skapSprefUtbetaling(dagsats, fomTom, valgteSoknader, sprefvariant))
     const [ dagerInkludertIFomTom, setDagerInkludertIFomTom ] = useState<number>(finnDagerInkludertIFomTom(fomTom))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const varianterSomTrengerLangPeriode: SprefVariant[] = [ 'opphold-midt-i', '80% og 100%' ]
     const langPeriode = 10
 
