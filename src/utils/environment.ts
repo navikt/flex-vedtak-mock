@@ -18,10 +18,6 @@ class Environment {
         return this.env.SPINNSYN_ROOT
     }
 
-    get flexinntektsmeldingRoot() {
-        return this.env.FLEXINNTEKTSMELDING_ROOT
-    }
-
     get syfoapiRoot() {
         return this.env.SYFOAPI_ROOT
     }

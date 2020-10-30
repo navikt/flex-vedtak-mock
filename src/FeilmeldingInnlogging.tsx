@@ -12,7 +12,7 @@ function FeilmeldingInnlogging() {
     }
     return (
         <div style={{ border: '5px solid', borderColor: 'red', padding: '1em' }}>
-            <b>Du er ikke logget inn som en bruker i testmiljøet og kan derfor ikke velge relaterte søknader, inntekstmeldinger eller sykmeldinger</b>
+            <b>Du er ikke logget inn som en bruker i testmiljøet og kan derfor ikke velge relaterte søknader eller sykmeldinger</b>
         </div>
     )
 }

@@ -11,7 +11,7 @@ import env from './utils/environment'
 function SendVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const { fodselsnummer, månedsinntekt, automatiskBehandling, valgteSykmeldinger, dagsats, valgteSoknader, valgteInntektsmeldinger, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefvariant } = useAppStore()
+    const { fodselsnummer, månedsinntekt, automatiskBehandling, valgteSykmeldinger, dagsats, valgteSoknader, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefvariant } = useAppStore()
 
     const genererVedtak = (): VedtakDto => {
 
@@ -40,10 +40,6 @@ function SendVedtak() {
 
         valgteSoknader.forEach((s) => {
             vedtak.dokumenter.push({ dokumentId: s.id, type: 'Søknad' })
-        })
-
-        valgteInntektsmeldinger.forEach((i) => {
-            vedtak.dokumenter.push({ dokumentId: i.id, type: 'Inntektsmelding' })
         })
 
         return vedtak

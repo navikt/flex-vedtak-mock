@@ -2,7 +2,6 @@ import { LocalDate } from '@js-joda/core'
 import constate from 'constate'
 import { useState } from 'react'
 
-import { Inntektsmelding } from '../types/Inntektsmelding'
 import { Soknad } from '../types/Soknad'
 import { SprefVariant } from '../types/SprefVariant'
 import { Sykmelding } from '../types/Sykmelding'
@@ -15,7 +14,6 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
     const [ sprefvariant, setSprefvariant ] = useState<SprefVariant>('100%')
     const [ valgteSykmeldinger, setValgteSykmeldinger ] = useState<Sykmelding[]>([])
     const [ valgteSoknader, setValgteSoknader ] = useState<Soknad[]>([])
-    const [ valgteInntektsmeldinger, setValgteInntektsmeldinger ] = useState<Inntektsmelding[]>([])
     const [ fodselsnummer, setFodselsnummer ] = useState<string>('')
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
@@ -33,7 +31,6 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
         sprefvariant, setSprefvariant,
         valgteSykmeldinger, setValgteSykmeldinger,
         valgteSoknader, setValgteSoknader,
-        valgteInntektsmeldinger, setValgteInntektsmeldinger,
         fodselsnummer, setFodselsnummer,
         forbrukteSykedager, setForbrukteSykedager,
         gjenstaendeSykedager, setGjenstaendeSykedager,

@@ -5,7 +5,6 @@ import Dagsats from './Dagsats'
 import Datoer from './Datoer'
 import FeilmeldingInnlogging from './FeilmeldingInnlogging'
 import Fodselsnummer from './Fodselsnummer'
-import Inntektsmeldinger from './Inntektsmeldinger'
 import Månedsinntekt from './Månedsinntekt'
 import SendVedtak from './SendVedtak'
 import SlettVedtak from './SlettVedtak'
@@ -33,7 +32,6 @@ function App() {
                 <Fodselsnummer />
                 <Sykmeldinger />
                 <Soknader />
-                <Inntektsmeldinger />
                 <Datoer />
                 <Dagsats />
                 <Månedsinntekt />
