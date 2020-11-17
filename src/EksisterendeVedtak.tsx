@@ -79,7 +79,7 @@ function EksisterendeVedtak() {
             {vedtak.map((vedtak) => {
                 return (
                     <div key={vedtak.id}>
-                        <span>FOM: {vedtak.vedtak.fom} - TOM: {vedtak.vedtak.fom} - Orgnummer: {vedtak.vedtak.organisasjonsnummer} </span>
+                        <span>FOM: {vedtak.vedtak.fom} - TOM: {vedtak.vedtak.tom} - Orgnummer: {vedtak.vedtak.organisasjonsnummer} </span>
                         <Vis hvis={!vedtak.annullert}>
                             <button onClick={() => annullerVedtak(vedtak)}>Annuller vedtaket</button>
                         </Vis>
