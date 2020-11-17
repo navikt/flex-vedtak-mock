@@ -1,6 +1,7 @@
-import { LocalDate } from '@js-joda/core'
+import { LocalDate, LocalDateTime } from '@js-joda/core'
 
 export interface VedtakDto {
+    organisasjonsnummer: string;
     automatiskBehandling: boolean;
     fom: LocalDate;
     tom: LocalDate;
@@ -40,4 +41,21 @@ interface Dokument {
 export interface FomTom {
     fom: LocalDate;
     tom: LocalDate;
+}
+
+export interface RSVedtak {
+    id: string;
+    lest: boolean;
+    vedtak: VedtakDto;
+    opprettet: LocalDate;
+    annullert: boolean;
+}
+
+
+export interface AnnulleringDto {
+    orgnummer: string;
+    tidsstempel: LocalDateTime;
+    fødselsnummer: string;
+    fom?: LocalDate;
+    tom?: LocalDate;
 }
