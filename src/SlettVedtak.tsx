@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
 import { useAppStore } from './stores/app-store'
 import env from './utils/environment'
@@ -7,7 +8,7 @@ import env from './utils/environment'
 function SlettVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const {  fodselsnummer } = useAppStore()
+    const { setTriggFetchVedtak, fodselsnummer } = useAppStore()
 
     return (
         <div style={{ paddingTop: '1em' }}>
@@ -18,13 +19,15 @@ function SlettVedtak() {
                 }
                 try {
                     setFetching(true)
-                    const res = await fetch(`${env.opprettVedtakRoot}/${fodselsnummer}`, {
+                    const res = await fetch(`${env.spinnsynMockRoot}/api/v1/mock/vedtak/${fodselsnummer}`, {
                         method: 'DELETE',
                         credentials: 'include'
                     })
                     if (res.ok) {
                         const tekst = await res.text()
                         window.alert(tekst)
+                        setTriggFetchVedtak(uuid())
+
                     } else {
                         window.alert('Noe gikk galt ved sletting av vedtak')
                     }

@@ -22,8 +22,8 @@ class Environment {
         return this.env.SYFOAPI_ROOT
     }
 
-    get opprettVedtakRoot() {
-        return this.env.OPPRETT_VEDTAK_ROOT
+    get spinnsynMockRoot() {
+        return this.env.SPINNSYN_MOCK_ROOT
     }
 }
 

@@ -3,6 +3,7 @@ import React from 'react'
 import AutomatiskBehandling from './AutomatiskBehandling'
 import Dagsats from './Dagsats'
 import Datoer from './Datoer'
+import EksisterendeVedtak from './EksisterendeVedtak'
 import FeilmeldingInnlogging from './FeilmeldingInnlogging'
 import Fodselsnummer from './Fodselsnummer'
 import Månedsinntekt from './Månedsinntekt'
@@ -41,6 +42,7 @@ function App() {
                 <Sykedager />
                 <SendVedtak />
                 <SlettVedtak />
+                <EksisterendeVedtak />
             </div>
         </StoreProvider>
     )

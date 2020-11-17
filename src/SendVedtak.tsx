@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash.clonedeep'
 import React, { useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
 import { skapSprefUtbetaling } from './SprefUtbetaling'
 import { skapSpUtbetaling } from './SpUtbetaling'
@@ -11,13 +12,14 @@ import env from './utils/environment'
 function SendVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const { fodselsnummer, månedsinntekt, automatiskBehandling, valgteSykmeldinger, dagsats, valgteSoknader, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefvariant } = useAppStore()
+    const { setTriggFetchVedtak, fodselsnummer, månedsinntekt, automatiskBehandling, valgteSykmeldinger, dagsats, valgteSoknader, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefvariant } = useAppStore()
 
     const genererVedtak = (): VedtakDto => {
 
         const vedtak: VedtakDto = {
             automatiskBehandling,
             månedsinntekt,
+            organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
             fom: fomTom.fom,
             tom: fomTom.tom,
             forbrukteSykedager,
@@ -54,7 +56,7 @@ function SendVedtak() {
                 }
                 try {
                     setFetching(true)
-                    const res = await fetch(`${env.opprettVedtakRoot}/${fodselsnummer}`, {
+                    const res = await fetch(`${env.spinnsynMockRoot}/api/v1/mock/vedtak/${fodselsnummer}`, {
                         method: 'POST',
                         credentials: 'include',
                         body: JSON.stringify(genererVedtak()),
@@ -63,6 +65,7 @@ function SendVedtak() {
                     if (res.ok) {
                         const tekst = await res.text()
                         window.alert(tekst)
+                        setTriggFetchVedtak(uuid())
                     } else {
                         window.alert('Noe gikk galt ved publisering av vedtak')
                     }

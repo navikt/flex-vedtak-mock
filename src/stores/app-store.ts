@@ -1,6 +1,7 @@
 import { LocalDate } from '@js-joda/core'
 import constate from 'constate'
 import { useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
 import { Soknad } from '../types/Soknad'
 import { SprefVariant } from '../types/SprefVariant'
@@ -18,6 +19,7 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
     const [ automatiskBehandling, setAutomatiskBehandling ] = useState<boolean>(true)
+    const [ triggFetchVedtak, setTriggFetchVedtak ] = useState<string>(uuid())
 
     const [ fomTom, setFomTom ] = useState<FomTom>({
         fom: LocalDate.now().minusDays(14),
@@ -35,6 +37,7 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
         forbrukteSykedager, setForbrukteSykedager,
         gjenstaendeSykedager, setGjenstaendeSykedager,
         automatiskBehandling, setAutomatiskBehandling,
-        fomTom, setFomTom
+        fomTom, setFomTom,
+        triggFetchVedtak, setTriggFetchVedtak
     }
 })
