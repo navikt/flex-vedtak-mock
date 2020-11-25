@@ -18,8 +18,8 @@ class Environment {
         return this.env.SPINNSYN_ROOT
     }
 
-    get syfoapiRoot() {
-        return this.env.SYFOAPI_ROOT
+    get syfosoknadRoot() {
+        return this.env.SYFOSOKNAD_PROXY_ROOT
     }
 
     get spinnsynMockRoot() {

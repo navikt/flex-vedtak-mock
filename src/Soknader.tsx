@@ -18,7 +18,7 @@ function Soknader() {
 
     useEffect(() => {
         async function fetchData() {
-            const data = await fetch(`${env.syfoapiRoot}/syfosoknad/api/soknader`, {
+            const data = await fetch(`${env.syfosoknadRoot}/api/soknader`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }
