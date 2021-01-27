@@ -18,7 +18,7 @@
     "react-dom": "^16.14.0",
     "react-scripts": "^4.0.0",
     "typescript": "~3.9.7",
-    "uuid": "^8.2.0"
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "npm run generate-env-config && react-scripts start",
