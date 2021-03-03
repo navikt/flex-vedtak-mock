@@ -28,11 +28,9 @@ spec:
   env:
     - name: SYKMELDINGER_BACKEND_PROXY_ROOT
       value: "https://sykmeldinger-backend-proxy.dev.nav.no"
-    - name: SPINNSYN_ROOT
-      value: "https://spinnsyn-backend-proxy.dev.nav.no"
     - name: ENVIRONMENT
       value: "q1"
-    - name: SYFOSOKNAD_PROXY_ROOT
-      value: "https://syfosoknad-proxy.dev.nav.no"
+    - name: FLEX_GATEWAY_ROOT
+      value: "https://flex-gateway.dev.nav.no"
     - name: SPINNSYN_MOCK_ROOT
       value: "https://spinnsyn-backend-mock-proxy.dev.nav.no"

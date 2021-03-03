@@ -15,7 +15,7 @@ function EksisterendeVedtak() {
 
     useEffect(() => {
         async function fetchData() {
-            const data = await fetch(`${env.spinnsynRoot}/api/v1/vedtak`, {
+            const data = await fetch(`${env.flexGatewayRoot}/spinnsyn-backend/api/v1/vedtak`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }
