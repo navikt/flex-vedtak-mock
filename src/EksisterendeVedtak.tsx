@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 
 import Vis from './components/vis'
 import { useAppStore } from './stores/app-store'
-import { AnnulleringDto, RSVedtak } from './types/Vedtak'
+import { AnnulleringDto, RSVedtak } from './types/VedtakV1'
 import env from './utils/environment'
 
 
@@ -27,7 +27,7 @@ function EksisterendeVedtak() {
                 if (data.status === 401) {
                     setFikk401(true)
                 } else {
-                    window.alert('Oops, noe gikk galt ved henting av sykmeldinger')
+                    window.alert('Oops, noe gikk galt ved henting av vedtak')
                 }
             }
         }

@@ -7,6 +7,7 @@ import EksisterendeVedtak from './EksisterendeVedtak'
 import FeilmeldingInnlogging from './FeilmeldingInnlogging'
 import Fodselsnummer from './Fodselsnummer'
 import Månedsinntekt from './Månedsinntekt'
+import SendSomNyttVedtak from './SendSomNyttVedtak'
 import SendVedtak from './SendVedtak'
 import SlettVedtak from './SlettVedtak'
 import Soknader from './Soknader'
@@ -15,6 +16,7 @@ import SpUtbetaling from './SpUtbetaling'
 import StoreProvider from './stores/store-provider'
 import Sykedager from './Sykedager'
 import Sykmeldinger from './Sykmeldinger'
+import Utbetalingsdager from './Utbetalingsdager'
 
 
 function App() {
@@ -39,8 +41,10 @@ function App() {
                 <AutomatiskBehandling />
                 <SprefUtbetaling />
                 <SpUtbetaling />
+                <Utbetalingsdager />
                 <Sykedager />
                 <SendVedtak />
+                <SendSomNyttVedtak />
                 <SlettVedtak />
                 <EksisterendeVedtak />
             </div>

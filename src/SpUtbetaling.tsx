@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 
-import { Utbetaling } from './components/Utbetaling'
 import { useAppStore } from './stores/app-store'
-import { UtbetalingDto } from './types/Vedtak'
+import { UtbetalingDto } from './types/VedtakV1'
+import { Utbetaling } from './Utbetaling'
 
 
 function SpUtbetaling() {

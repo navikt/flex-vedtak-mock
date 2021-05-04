@@ -2,17 +2,17 @@ import { DayOfWeek, LocalDate } from '@js-joda/core'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 
-import { Utbetaling } from './components/Utbetaling'
 import { useAppStore } from './stores/app-store'
 import { Soknad } from './types/Soknad'
 import { SprefVariant } from './types/SprefVariant'
-import { FomTom, UtbetalingDto, UtbetalingslinjeDto } from './types/Vedtak'
+import { FomTom, UtbetalingDto, UtbetalingslinjeDto } from './types/VedtakV1'
+import { OppdragDto } from './types/VedtakV2'
+import { Utbetaling } from './Utbetaling'
 
 
 function SprefUtbetaling() {
 
-    const { dagsats, fomTom, valgteSoknader, sprefvariant, setSprefvariant, forbrukteSykedager, setForbrukteSykedager } = useAppStore()
-    const [ utbetaling, setUtbetaling ] = useState<UtbetalingDto>(skapSprefUtbetaling(dagsats, fomTom, valgteSoknader, sprefvariant))
+    const { dagsats, fomTom, valgteSoknader, sprefvariant, setSprefvariant, forbrukteSykedager, setForbrukteSykedager, sprefUtbetaling, setSprefUtbetaling } = useAppStore()
     const [ dagerInkludertIFomTom, setDagerInkludertIFomTom ] = useState<number>(finnDagerInkludertIFomTom(fomTom))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const varianterSomTrengerLangPeriode: SprefVariant[] = [ 'opphold-midt-i', '80% og 100%' ]
@@ -24,8 +24,8 @@ function SprefUtbetaling() {
         if (forbrukteSykedager < sykedagerFraUtbetalingslinjer) {
             setForbrukteSykedager(sykedagerFraUtbetalingslinjer)
         }
-        setUtbetaling(sprefUtbetaling)
-    }, [ dagsats, fomTom, setUtbetaling, valgteSoknader, sprefvariant, forbrukteSykedager, setForbrukteSykedager ])
+        setSprefUtbetaling(sprefUtbetaling)
+    }, [ dagsats, fomTom, setSprefUtbetaling, valgteSoknader, sprefvariant, forbrukteSykedager, setForbrukteSykedager ])
 
     useEffect(() => {
         setDagerInkludertIFomTom(finnDagerInkludertIFomTom(fomTom))
@@ -71,7 +71,7 @@ function SprefUtbetaling() {
                 <RadioValg navn={'Kombinert 80 og 100%'} sprefVariant={'80% og 100%'} />
             </form>
 
-            <Utbetaling key={utbetaling._id} utbetaling={utbetaling} />
+            <Utbetaling key={sprefUtbetaling?._id} utbetaling={sprefUtbetaling} />
         </div>
     )
 }
@@ -169,3 +169,24 @@ export function skapSprefUtbetaling(dagsats: number, fomTom: FomTom, valgteSokna
     }
 }
 
+
+export function sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling: UtbetalingDto): OppdragDto {
+    const utbetalingslinjerV2 = sprefUtbetaling.utbetalingslinjer.map((ut) => {
+        return {
+            fom: ut.fom,
+            tom: ut.tom,
+            dagsats: ut.dagsats,
+            totalbeløp: ut.beløp * ut.sykedager,
+            grad: ut.grad,
+            stønadsdager: ut.sykedager
+        }
+    })
+
+    return {
+        mottaker: sprefUtbetaling.mottaker,
+        fagområde: sprefUtbetaling.fagområde,
+        fagsystemId: v4(),
+        nettoBeløp: sprefUtbetaling.totalbeløp,
+        utbetalingslinjer: utbetalingslinjerV2
+    }
+}

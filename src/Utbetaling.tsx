@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { UtbetalingDto, UtbetalingslinjeDto } from '../types/Vedtak'
+import { UtbetalingDto, UtbetalingslinjeDto } from './types/VedtakV1'
 
 
 interface UtbetalingslinjeProps {
@@ -26,11 +26,12 @@ function Utbetalingslinje({ utbetalingslinje }: UtbetalingslinjeProps) {
 }
 
 interface UtbetalingProps {
-    utbetaling: UtbetalingDto;
+    utbetaling?: UtbetalingDto;
 
 }
 
 export function Utbetaling({ utbetaling }: UtbetalingProps) {
+    if (!utbetaling) return null
     return (
         <div style={{ border: '1px solid', padding: '1em' }}>
             <p><strong>Fagområde:</strong>{utbetaling.fagområde}</p>
