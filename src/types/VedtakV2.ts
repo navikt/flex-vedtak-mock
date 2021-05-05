@@ -38,17 +38,18 @@ export interface OppdragDto {
 }
 
 export interface UtbetalingslinjeDto {
-    fom: LocalDate;
-    tom: LocalDate;
-    dagsats: number;
-    totalbeløp: number;
-    grad: number;
-    stønadsdager: number;
+    fom: LocalDate;         // Fra-dato for denne kombinasjonen av dagsats og grad
+    tom: LocalDate;         // Til-dato
+    dagsats: number;        // Faktisk utbetalingsbeløp per dag, altså etter gradering
+    totalbeløp: number;     // Utregning av dagsats ganger antall stønadsdager
+    grad: number;           // Sykdomsgrad per dag
+    stønadsdager: number;   // Antall virkedager mellom FOM og TOM. Helligdager er inkludert, men helgedager er ikke
 }
 
 export interface UtbetalingdagDto {
     dato: LocalDate;
     type: string;
+    // begrunnelse: string; Begrunnelse av årsak til avvising, kun inkludert for avviste dager
 }
 
 interface Dokument {
