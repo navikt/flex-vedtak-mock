@@ -6,7 +6,8 @@ import { v4 as uuid } from 'uuid'
 import { Soknad } from '../types/Soknad'
 import { SprefVariant } from '../types/SprefVariant'
 import { Sykmelding } from '../types/Sykmelding'
-import { FomTom } from '../types/Vedtak'
+import { FomTom, UtbetalingDto } from '../types/VedtakV1'
+import { UtbetalingdagDto } from '../types/VedtakV2'
 
 export const [ AppStoreProvider, useAppStore ] = constate(() => {
     const [ fikk401, setFikk401 ] = useState<boolean>(false)
@@ -19,6 +20,8 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
     const [ automatiskBehandling, setAutomatiskBehandling ] = useState<boolean>(true)
+    const [ sprefUtbetaling, setSprefUtbetaling ] = useState<UtbetalingDto>()
+    const [ utbetalingsdager, setUtbetalingsdager ] = useState<UtbetalingdagDto[]>([])
     const [ triggFetchVedtak, setTriggFetchVedtak ] = useState<string>(uuid())
 
     const [ fomTom, setFomTom ] = useState<FomTom>({
@@ -37,6 +40,8 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
         forbrukteSykedager, setForbrukteSykedager,
         gjenstaendeSykedager, setGjenstaendeSykedager,
         automatiskBehandling, setAutomatiskBehandling,
+        sprefUtbetaling, setSprefUtbetaling,
+        utbetalingsdager, setUtbetalingsdager,
         fomTom, setFomTom,
         triggFetchVedtak, setTriggFetchVedtak
     }
