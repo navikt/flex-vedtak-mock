@@ -175,7 +175,7 @@ export function sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling: Utbetalin
         return {
             fom: ut.fom,
             tom: ut.tom,
-            dagsats: ut.dagsats,
+            dagsats: ut.beløp,
             totalbeløp: ut.beløp * ut.sykedager,
             grad: ut.grad,
             stønadsdager: ut.sykedager
