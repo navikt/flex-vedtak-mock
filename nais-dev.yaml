@@ -32,5 +32,5 @@ spec:
       value: "q1"
     - name: FLEX_GATEWAY_ROOT
       value: "https://flex-gateway.dev.nav.no"
-    - name: SPINNSYN_MOCK_ROOT
-      value: "https://spinnsyn-backend-mock-proxy.dev.nav.no"
+    - name: FLEX_INTERN_GATEWAY_ROOT
+      value: "https://flex-intern-gateway.dev.intern.nav.no"

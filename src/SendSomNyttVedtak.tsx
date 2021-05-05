@@ -71,7 +71,7 @@ function SendSomNyttVedtak() {
                 try {
                     setFetching(true)
                     const vedtak = genererVedtakV2()
-                    const res = await fetch(`${env.spinnsynMockRoot}/api/v2/testdata/vedtak/${fodselsnummer}`, {
+                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v2/testdata/vedtak/${fodselsnummer}`, {
                         method: 'POST',
                         credentials: 'include',
                         body: JSON.stringify({
