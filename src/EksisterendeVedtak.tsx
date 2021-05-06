@@ -46,7 +46,7 @@ function EksisterendeVedtak() {
             tidsstempel: LocalDateTime.now()
         }
 
-        const res = await fetch(`${env.spinnsynMockRoot}/api/v1/mock/annullering/${fodselsnummer}`, {
+        const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/mock/annullering/${fodselsnummer}`, {
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify(annullering),

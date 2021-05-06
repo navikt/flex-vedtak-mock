@@ -55,7 +55,7 @@ function SendVedtak() {
                 }
                 try {
                     setFetching(true)
-                    const res = await fetch(`${env.spinnsynMockRoot}/api/v1/mock/vedtak/${fodselsnummer}`, {
+                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/mock/vedtak/${fodselsnummer}`, {
                         method: 'POST',
                         credentials: 'include',
                         body: JSON.stringify(genererVedtak()),

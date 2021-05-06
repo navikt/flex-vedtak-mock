@@ -14,8 +14,8 @@ class Environment {
         return this.env.SYKMELDINGER_BACKEND_PROXY_ROOT
     }
 
-    get spinnsynMockRoot() {
-        return this.env.SPINNSYN_MOCK_ROOT
+    get flexInternGatewayRoot() {
+        return this.env.FLEX_INTERN_GATEWAY_ROOT
     }
 
     get flexGatewayRoot() {
