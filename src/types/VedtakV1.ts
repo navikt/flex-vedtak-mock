@@ -43,14 +43,6 @@ export interface FomTom {
     tom: LocalDate;
 }
 
-export interface RSVedtak {
-    id: string;
-    lest: boolean;
-    vedtak: VedtakDto;
-    opprettet: LocalDate;
-    annullert: boolean;
-}
-
 
 export interface AnnulleringDto {
     orgnummer: string;
