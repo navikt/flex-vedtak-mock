@@ -28,13 +28,13 @@ export default () => {
             let dag = linje.fom
             while(dag <= linje.tom) {
                 if (arbeidsgiverperiode-- > 0) {
-                    dager.push({ dato: dag, type: 'ArbeidsgiverperiodeDag' })
+                    dager.push({ dato: dag, type: 'ArbeidsgiverperiodeDag', begrunnelser: [] })
                 }
                 else if (dag.dayOfWeek() === DayOfWeek.SATURDAY || dag.dayOfWeek() === DayOfWeek.SUNDAY) {
-                    dager.push({ dato: dag, type: 'NavHelgDag' })
+                    dager.push({ dato: dag, type: 'NavHelgDag', begrunnelser: [] })
                 }
                 else {
-                    dager.push({ dato: dag, type: 'NavDag' })
+                    dager.push({ dato: dag, type: 'NavDag', begrunnelser: [] })
                 }
                 dag = dag.plusDays(1)
             }

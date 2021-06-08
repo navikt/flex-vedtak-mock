@@ -49,7 +49,7 @@ export interface UtbetalingslinjeDto {
 export interface UtbetalingdagDto {
     dato: LocalDate;
     type: string;
-    // begrunnelse: string; Begrunnelse av årsak til avvising, kun inkludert for avviste dager
+    begrunnelser: string[]
 }
 
 interface Dokument {
