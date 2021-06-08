@@ -15,7 +15,20 @@ import env from './utils/environment'
 function SendSomNyttVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const { setTriggFetchVedtak, fodselsnummer, månedsinntekt, automatiskBehandling, valgteSykmeldinger, valgteSoknader, forbrukteSykedager, gjenstaendeSykedager, fomTom, sprefUtbetaling, utbetalingsdager } = useAppStore()
+    const {
+        setTriggFetchVedtak,
+        fodselsnummer,
+        månedsinntekt,
+        automatiskBehandling,
+        valgteSykmeldinger,
+        valgteSoknader,
+        forbrukteSykedager,
+        gjenstaendeSykedager,
+        utbetalingstype,
+        fomTom,
+        sprefUtbetaling,
+        utbetalingsdager
+    } = useAppStore()
 
     const genererVedtakV2 = () => {
         const vedtak: VedtakFattetForEksternDto = {
@@ -51,7 +64,7 @@ function SendSomNyttVedtak() {
             gjenståendeSykedager: gjenstaendeSykedager,
             automatiskBehandling: automatiskBehandling,
             arbeidsgiverOppdrag: sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling!),
-            type: 'UTBETALING',
+            type: utbetalingstype,
             utbetalingsdager: utbetalingsdager,
         }
         vedtak.utbetalingId = utbetaling.utbetalingId

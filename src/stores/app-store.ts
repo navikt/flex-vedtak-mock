@@ -23,6 +23,7 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
     const [ sprefUtbetaling, setSprefUtbetaling ] = useState<UtbetalingDto>()
     const [ utbetalingsdager, setUtbetalingsdager ] = useState<UtbetalingdagDto[]>([])
     const [ triggFetchVedtak, setTriggFetchVedtak ] = useState<string>(uuid())
+    const [ utbetalingstype, setUtbetalingstype ] = useState<string>('UTBETALING')
 
     const [ fomTom, setFomTom ] = useState<FomTom>({
         fom: LocalDate.now().minusDays(14),
@@ -43,6 +44,7 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
         sprefUtbetaling, setSprefUtbetaling,
         utbetalingsdager, setUtbetalingsdager,
         fomTom, setFomTom,
-        triggFetchVedtak, setTriggFetchVedtak
+        triggFetchVedtak, setTriggFetchVedtak,
+        utbetalingstype, setUtbetalingstype
     }
 })

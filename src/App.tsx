@@ -17,6 +17,7 @@ import StoreProvider from './stores/store-provider'
 import Sykedager from './Sykedager'
 import Sykmeldinger from './Sykmeldinger'
 import Utbetalingsdager from './Utbetalingsdager'
+import Utbetalingstype from './Utbetalingstype'
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                 <SprefUtbetaling />
                 <SpUtbetaling />
                 <Utbetalingsdager />
+                <Utbetalingstype />
                 <Sykedager />
                 <SendVedtak />
                 <SendSomNyttVedtak />
