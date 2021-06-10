@@ -67,6 +67,9 @@ export default () => {
                                     const nyeDager = utbetalingsdager.map(dag => {
                                         if (dag.dato.toString() === event.target.id) {
                                             dag.type = event.target.value
+                                            if (dag.type === 'AvvistDag') {
+                                                dag.begrunnelser = [ event.target.selectedOptions[0].id ]
+                                            }
                                         }
                                         return dag
                                     })
@@ -78,8 +81,14 @@ export default () => {
                                 <option value="ArbeidsgiverperiodeDag">ArbeidsgiverperiodeDag</option>
                                 <option value="Arbeidsdag">Arbeidsdag</option>
                                 <option value="Fridag">Fridag</option>
-                                <option value="AvvistDag">AvvistDag</option>
                                 <option value="ForeldetDag">ForeldetDag</option>
+                                <option value="AvvistDag" id="SykepengedagerOppbrukt">Avvist - SykepengedagerOppbrukt</option>
+                                <option value="AvvistDag" id="MinimumInntekt">Avvist - MinimumInntekt</option>
+                                <option value="AvvistDag" id="EgenmeldingUtenforArbeidsgiverperiode">Avvist - EgenmeldingUtenforArbeidsgiverperiode</option>
+                                <option value="AvvistDag" id="MinimumSykdomsgrad">Avvist - MinimumSykdomsgrad</option>
+                                <option value="AvvistDag" id="ManglerOpptjening">Avvist - ManglerOpptjening</option>
+                                <option value="AvvistDag" id="ManglerMedlemskap">Avvist - ManglerMedlemskap</option>
+                                <option value="AvvistDag" id="EtterDødsdato">Avvist - EtterDødsdato</option>
                                 <option value="UkjentDag">UkjentDag</option>
                             </select>
                         </div>
