@@ -1,4 +1,4 @@
-import { DayOfWeek } from '@js-joda/core'
+import { DayOfWeek, LocalDate } from '@js-joda/core'
 import React, { useEffect, useState } from 'react'
 
 import { sprefUtbetalingTilArbeidsgiverOppdrag } from './SprefUtbetaling'
@@ -7,7 +7,7 @@ import { OppdragDto, UtbetalingdagDto } from './types/VedtakV2'
 
 
 export default () => {
-    const { utbetalingsdager, setUtbetalingsdager, sprefUtbetaling } = useAppStore()
+    const { utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, valgteSykmeldinger } = useAppStore()
     const [ brukUtbetalingsdager, setBrukUtbetalingsdager ] = useState(false)
 
     useEffect(() => {
@@ -18,19 +18,25 @@ export default () => {
         else {
             setUtbetalingsdager([])
         }
+        // eslint-disable-next-line
     }, [ brukUtbetalingsdager, setUtbetalingsdager, sprefUtbetaling ])
 
     function skapUtbetalingsdager(oppdrag: OppdragDto): UtbetalingdagDto[] {
         const dager: UtbetalingdagDto[] = []
         let arbeidsgiverperiode = 16
+        let dag = valgteSykmeldinger[0]?.syketilfelleStartDato
+            ? LocalDate.parse(valgteSykmeldinger[0].syketilfelleStartDato.toISOString().split('T')[0])
+            : oppdrag.utbetalingslinjer[0].fom
+
+        while(dag < oppdrag.utbetalingslinjer[0].fom && arbeidsgiverperiode-- > 0) {
+            dager.push({ dato: dag, type: 'ArbeidsgiverperiodeDag', begrunnelser: [] })
+            dag = dag.plusDays(1)
+        }
 
         oppdrag.utbetalingslinjer.forEach((linje) => {
-            let dag = linje.fom
+            dag = linje.fom
             while(dag <= linje.tom) {
-                if (arbeidsgiverperiode-- > 0) {
-                    dager.push({ dato: dag, type: 'ArbeidsgiverperiodeDag', begrunnelser: [] })
-                }
-                else if (dag.dayOfWeek() === DayOfWeek.SATURDAY || dag.dayOfWeek() === DayOfWeek.SUNDAY) {
+                if (dag.dayOfWeek() === DayOfWeek.SATURDAY || dag.dayOfWeek() === DayOfWeek.SUNDAY) {
                     dager.push({ dato: dag, type: 'NavHelgDag', begrunnelser: [] })
                 }
                 else {
