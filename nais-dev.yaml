@@ -27,7 +27,7 @@ spec:
     path: internal/isReady
   env:
     - name: SYKMELDINGER_BACKEND_PROXY_ROOT
-      value: "https://sykmelding-gateway.nav.no/sykmeldinger-backend"
+      value: "https://sykmelding-gateway.dev.nav.no/sykmeldinger-backend"
     - name: ENVIRONMENT
       value: "q1"
     - name: FLEX_GATEWAY_ROOT
