@@ -46,7 +46,13 @@ function App() {
             }
         }
 
-        fetchData().catch((e: any) => window.alert(`Ooops, feil. ved fnr fetching! ${e}`))
+        fetchData().catch((e: any) => {
+
+            // eslint-disable-next-line no-console
+            console.error('OIDA', e)
+            window.alert(`Ooops, feil. ved fnr fetching! ${e}`)
+        }
+        )
 
     }, [ setFodselsnummer, setFikk401 ])
 
@@ -62,7 +68,7 @@ function App() {
                 <Vis hvis={fikk401}>
                     <FeilmeldingInnlogging />
                 </Vis>
-                <Vis hvis={fodselsnummer != ''}>
+                <Vis hvis={fodselsnummer !== ''}>
                     <Fodselsnummer />
                     <Sykmeldinger />
                     <Soknader />
