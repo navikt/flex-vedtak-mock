@@ -34,8 +34,9 @@ function App() {
                 headers: { 'Content-Type': 'application/json' }
             })
             if (data.ok) {
-                const vedtak = await data.json()
-                setFodselsnummer(vedtak)
+                const fnr = await data.json()
+                window.alert('Setter fnr til ' + fnr)
+                setFodselsnummer(fnr)
             } else {
                 if (data.status === 401) {
                     setFikk401(true)
@@ -45,7 +46,7 @@ function App() {
             }
         }
 
-        fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
+        fetchData().catch((e: any) => window.alert(`Ooops, feil. ved fnr fetching! ${e}`))
 
     }, [ setFodselsnummer, setFikk401 ])
 
