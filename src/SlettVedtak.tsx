@@ -8,7 +8,7 @@ import env from './utils/environment'
 function SlettVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const { setTriggFetchVedtak } = useAppStore()
+    const { setTriggFetchVedtak, fodselsnummer } = useAppStore()
 
     return (
         <div style={{ paddingTop: '1em' }}>
@@ -31,7 +31,7 @@ function SlettVedtak() {
                     setFetching(false)
                 }
 
-            }}>Slett alle vedtak på innlogget bruker <span role={'img'} aria-label={'Wastebasket'}>🗑️️</span>
+            }}>Slett alle vedtak på {fodselsnummer} <span role={'img'} aria-label={'Wastebasket'}>🗑️️</span>
             </button>
         </div>
     )

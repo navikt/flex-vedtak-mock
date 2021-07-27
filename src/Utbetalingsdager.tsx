@@ -8,7 +8,7 @@ import { OppdragDto, UtbetalingdagDto } from './types/VedtakV2'
 
 export default () => {
     const { utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, valgteSykmeldinger } = useAppStore()
-    const [ brukUtbetalingsdager, setBrukUtbetalingsdager ] = useState(true)
+    const [ brukUtbetalingsdager, setBrukUtbetalingsdager ] = useState(false)
 
     useEffect(() => {
         if (brukUtbetalingsdager) {
