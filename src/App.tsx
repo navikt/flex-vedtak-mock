@@ -14,7 +14,6 @@ import Soknader from './Soknader'
 import SprefUtbetaling from './SprefUtbetaling'
 import SpUtbetaling from './SpUtbetaling'
 import { useAppStore } from './stores/app-store'
-import StoreProvider from './stores/store-provider'
 import Sykedager from './Sykedager'
 import Sykmeldinger from './Sykmeldinger'
 import Utbetalingsdager from './Utbetalingsdager'
@@ -35,7 +34,6 @@ function App() {
             })
             if (data.ok) {
                 const fnr = await data.json()
-                window.alert('Setter fnr til ' + fnr)
                 setFodselsnummer(fnr)
             } else {
                 if (data.status === 401) {
@@ -47,7 +45,6 @@ function App() {
         }
 
         fetchData().catch((e: any) => {
-
             // eslint-disable-next-line no-console
             console.error('OIDA', e)
             window.alert(`Ooops, feil. ved fnr fetching! ${e}`)
@@ -57,37 +54,35 @@ function App() {
     }, [ setFodselsnummer, setFikk401 ])
 
     return (
-        <StoreProvider>
-            <div style={{
-                margin: 'auto',
-                width: '70%',
-                paddingTop: '3em',
-                fontFamily: '"Courier New", Courier, monospace'
-            }}>
-                <h1 style={{ textAlign: 'center' }}>Vedtak testdatagenerator</h1>
-                <Vis hvis={fikk401}>
-                    <FeilmeldingInnlogging />
-                </Vis>
-                <Vis hvis={fodselsnummer !== ''}>
-                    <Fodselsnummer />
-                    <Sykmeldinger />
-                    <Soknader />
-                    <Datoer />
-                    <Dagsats />
-                    <Månedsinntekt />
-                    <AutomatiskBehandling />
-                    <SprefUtbetaling />
-                    <SpUtbetaling />
-                    <Utbetalingsdager />
-                    <Utbetalingstype />
-                    <Sykedager />
-                    <SendSomNyttVedtak />
-                    <SlettVedtak />
-                    <EksisterendeVedtak />
-                </Vis>
+        <div style={{
+            margin: 'auto',
+            width: '70%',
+            paddingTop: '3em',
+            fontFamily: '"Courier New", Courier, monospace'
+        }}>
+            <h1 style={{ textAlign: 'center' }}>Vedtak testdatagenerator</h1>
+            <Vis hvis={fikk401}>
+                <FeilmeldingInnlogging />
+            </Vis>
+            <Vis hvis={fodselsnummer !== ''}>
+                <Fodselsnummer />
+                <Sykmeldinger />
+                <Soknader />
+                <Datoer />
+                <Dagsats />
+                <Månedsinntekt />
+                <AutomatiskBehandling />
+                <SprefUtbetaling />
+                <SpUtbetaling />
+                <Utbetalingsdager />
+                <Utbetalingstype />
+                <Sykedager />
+                <SendSomNyttVedtak />
+                <SlettVedtak />
+                <EksisterendeVedtak />
+            </Vis>
 
-            </div>
-        </StoreProvider>
+        </div>
     )
 }
 
