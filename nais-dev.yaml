@@ -33,4 +33,4 @@ spec:
     - name: FLEX_GATEWAY_ROOT
       value: "https://flex-gateway.dev.nav.no"
     - name: FLEX_INTERN_GATEWAY_ROOT
-      value: "https://flex-intern-gateway.dev.intern.nav.no"
+      value: "https://flex-intern-gateway.dev.nav.no"

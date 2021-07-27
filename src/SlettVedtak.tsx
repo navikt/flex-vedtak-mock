@@ -8,18 +8,14 @@ import env from './utils/environment'
 function SlettVedtak() {
 
     const [ fetching, setFetching ] = useState(false)
-    const { setTriggFetchVedtak, fodselsnummer } = useAppStore()
+    const { setTriggFetchVedtak } = useAppStore()
 
     return (
         <div style={{ paddingTop: '1em' }}>
             <button disabled={fetching} style={{ fontSize: 40 }} onClick={async() => {
-                if (!fodselsnummer) {
-                    window.alert('Fødselsnummer er ikke satt')
-                    return
-                }
                 try {
                     setFetching(true)
-                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/mock/vedtak/${fodselsnummer}`, {
+                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/testdata/vedtak`, {
                         method: 'DELETE',
                         credentials: 'include'
                     })
@@ -35,7 +31,7 @@ function SlettVedtak() {
                     setFetching(false)
                 }
 
-            }}>Slett alle vedtak på {fodselsnummer} <span role={'img'} aria-label={'Wastebasket'}>🗑️️</span>
+            }}>Slett alle vedtak på innlogget bruker <span role={'img'} aria-label={'Wastebasket'}>🗑️️</span>
             </button>
         </div>
     )

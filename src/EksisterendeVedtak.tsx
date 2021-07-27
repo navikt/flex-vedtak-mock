@@ -46,7 +46,7 @@ function EksisterendeVedtak() {
             tidsstempel: LocalDateTime.now()
         }
 
-        const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/mock/annullering/${fodselsnummer}`, {
+        const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/testdata/annullering`, {
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify(annullering),
@@ -80,7 +80,8 @@ function EksisterendeVedtak() {
                 const erVedtakV2 = vedtak.vedtak.utbetaling.utbetalingsdager.length !== 0
                 return (
                     <div key={vedtak.id}>
-                        <span>FOM: {vedtak.vedtak.fom} - TOM: {vedtak.vedtak.tom} - Orgnummer: {vedtak.vedtak.organisasjonsnummer} {erVedtakV2 ? <strong>- VedtakV2</strong> : ''} </span>
+                        <span>FOM: {vedtak.vedtak.fom} - TOM: {vedtak.vedtak.tom} - Orgnummer: {vedtak.vedtak.organisasjonsnummer} {erVedtakV2 ?
+                            <strong>- VedtakV2</strong> : ''} </span>
                         <Vis hvis={!vedtak.annullert && !erVedtakV2}>
                             <button onClick={() => annullerVedtak(vedtak)}>Annuller vedtaket</button>
                         </Vis>

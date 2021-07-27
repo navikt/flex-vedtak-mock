@@ -77,14 +77,10 @@ function SendSomNyttVedtak() {
     return (
         <div style={{ paddingTop: '1em' }}>
             <button disabled={fetching} style={{ fontSize: 40 }} onClick={async() => {
-                if (!fodselsnummer) {
-                    window.alert('Fødselsnummer er ikke satt')
-                    return
-                }
                 try {
                     setFetching(true)
                     const vedtak = genererVedtakV2()
-                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v2/testdata/vedtak/${fodselsnummer}`, {
+                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/testdata/vedtak`, {
                         method: 'POST',
                         credentials: 'include',
                         body: JSON.stringify({
