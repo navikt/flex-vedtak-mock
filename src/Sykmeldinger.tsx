@@ -35,7 +35,13 @@ function Sykmeldinger() {
                 if (data.status === 401) {
                     setFikk401(true)
                 } else {
-                    window.alert('Oops, noe gikk galt ved henting av sykmeldinger')
+                    try {
+                        const tekst = await data.text()
+                        window.alert('Oops, noe gikk galt ved henting av sykmeldinger\n' + tekst)
+
+                    } catch (e) {
+                        window.alert('Oops, noe gikk galt ved henting av sykmeldinger')
+                    }
                 }
             }
         }
@@ -44,7 +50,7 @@ function Sykmeldinger() {
 
     }, [ setValgteSykmeldinger, setFikk401 ])
 
-    if(fikk401){
+    if (fikk401) {
         return null
     }
     return (
