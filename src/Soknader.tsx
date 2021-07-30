@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
+import useSoknader from './queries/useSoknader'
 import { Soknad } from './types/Soknad'
 import { Sykmelding } from './types/Sykmelding'
-import env from './utils/environment'
 
 
 function skapTekstFraSoknad(soknad: Soknad, valgtSykmelding: boolean): string {
@@ -18,31 +18,11 @@ interface Props {
 
 function Soknader({ setValgteSoknader, valgteSoknader, valgteSykmeldinger }: Props) {
 
-    const [ soknader, setSoknader ] = useState<Soknad[]>([])
+    const { data: soknader } = useSoknader()
 
-    useEffect(() => {
-        async function fetchData() {
-            const data = await fetch(`${env.flexGatewayRoot}/syfosoknad/api/soknader`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            if (data.ok) {
-                const soknader = await data.json()
-                setSoknader(soknader)
-            } else {
-                // eslint-disable-next-line no-empty
-                if (data.status === 401) {
-                } else {
-                    window.alert('Oops, noe gikk galt ved henting av sykepengesøknader')
-                }
-            }
-        }
-
-        fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
-
-    }, [ setValgteSoknader, valgteSykmeldinger ])
-
+    if (!soknader) {
+        return null
+    }
 
     return (
         <div style={{ border: '1px solid', paddingBottom: '1em', paddingLeft: '1em' }}>

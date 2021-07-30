@@ -5,9 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import IkkeInnlogget from './IkkeInnlogget'
 import VedtakGenerator from './VedtakGenerator'
 
-
 function App() {
-
 
     const queryClient = new QueryClient({
         defaultOptions: {

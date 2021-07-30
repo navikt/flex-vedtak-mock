@@ -1,15 +1,15 @@
 import { useQuery } from 'react-query'
 
-import { Sykmelding } from '../types/Sykmelding'
+import { Soknad } from '../types/Soknad'
 import env from '../utils/environment'
 import { authenticatedGet } from '../utils/fetch'
 
 export default function() {
-    return useQuery<Sykmelding[], Error>('sykmeldinger', () =>
+    return useQuery<Soknad[], Error>('soknader', () =>
         authenticatedGet(
-            `${env.sykmeldingerBackendProxyRoot}/api/v1/sykmeldinger`,
+            `${env.flexGatewayRoot}/syfosoknad/api/soknader`,
             async(data) => {
-                return data as Sykmelding[]
+                return data as Soknad[]
             },
         ),
     )
