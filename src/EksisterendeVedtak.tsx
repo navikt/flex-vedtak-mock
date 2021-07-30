@@ -2,17 +2,18 @@ import { LocalDate, LocalDateTime } from '@js-joda/core'
 import React from 'react'
 
 import Vis from './components/vis'
+import useAnnullerVedtak from './queries/useAnnullerVedtak'
 import useFodselsnummer from './queries/useFodselsnummer'
 import useVedtak from './queries/useVedtak'
 import { AnnulleringDto } from './types/VedtakV1'
 import { RSVedtakWrapper } from './types/VedtakV2'
-import env from './utils/environment'
 
 
 function EksisterendeVedtak() {
 
     const { data: fodselsnummer } = useFodselsnummer()
     const { data: vedtak } = useVedtak()
+    const { mutate: annullerVedtaket } = useAnnullerVedtak()
 
 
     async function annullerVedtak(vedtak: RSVedtakWrapper) {
@@ -25,18 +26,7 @@ function EksisterendeVedtak() {
             tidsstempel: LocalDateTime.now()
         }
 
-        const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/testdata/annullering`, {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify(annullering),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        if (res.ok) {
-            const tekst = await res.text()
-            window.alert(tekst)
-        } else {
-            window.alert('Noe gikk galt ved publisering av vedtak')
-        }
+        annullerVedtaket(JSON.stringify(annullering))
     }
 
     if (!fodselsnummer) {
@@ -55,12 +45,10 @@ function EksisterendeVedtak() {
         }}>
             <h2>Eksisterende vedtak</h2>
             {vedtak.map((vedtak) => {
-                const erVedtakV2 = vedtak.vedtak.utbetaling.utbetalingsdager.length !== 0
                 return (
                     <div key={vedtak.id}>
-                        <span>FOM: {vedtak.vedtak.fom} - TOM: {vedtak.vedtak.tom} - Orgnummer: {vedtak.vedtak.organisasjonsnummer} {erVedtakV2 ?
-                            <strong>- VedtakV2</strong> : ''} </span>
-                        <Vis hvis={!vedtak.annullert && !erVedtakV2}>
+                        <span>FOM: {vedtak.vedtak.fom} - TOM: {vedtak.vedtak.tom} - Orgnummer: {vedtak.vedtak.organisasjonsnummer}</span>
+                        <Vis hvis={!vedtak.annullert}>
                             <button onClick={() => annullerVedtak(vedtak)}>Annuller vedtaket</button>
                         </Vis>
                     </div>

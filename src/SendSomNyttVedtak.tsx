@@ -102,7 +102,7 @@ function SendSomNyttVedtak({
                     utbetaling: JSON.stringify(vedtak.utbetaling)
                 }))
 
-            }}>Send som nytt vedtak med utbetalingsdager <span role={'img'} aria-label={'Judge'}>👨‍⚖️</span>
+            }}>Send vedtak <span role={'img'} aria-label={'Judge'}>👨‍⚖️</span>
             </button>
         </div>
     )
