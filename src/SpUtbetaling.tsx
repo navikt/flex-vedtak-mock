@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 
+import useFodselsnummer from './queries/useFodselsnummer'
 import { UtbetalingDto } from './types/VedtakV1'
 import { Utbetaling } from './Utbetaling'
 
-interface Props {
-    fodselsnummer: string
-}
 
-function SpUtbetaling({ fodselsnummer }: Props) {
+function SpUtbetaling() {
+    const { data: fodselsnummer } = useFodselsnummer()
 
     const [ utbetaling, setUtbetaling ] = useState<UtbetalingDto>(skapSpUtbetaling(fodselsnummer))
 
     useEffect(() => {
-        setUtbetaling(skapSpUtbetaling(fodselsnummer))
+        if (fodselsnummer)
+            setUtbetaling(skapSpUtbetaling(fodselsnummer))
     }, [ setUtbetaling, fodselsnummer ])
 
 
@@ -31,10 +31,11 @@ function SpUtbetaling({ fodselsnummer }: Props) {
 
 export default SpUtbetaling
 
-export function skapSpUtbetaling(fnr: string) {
+export function skapSpUtbetaling(fnr: string | undefined) {
+
     return {
         _id: v4(),
-        mottaker: fnr,
+        mottaker: fnr || 'byttes',
         fagområde: 'SP',
         totalbeløp: 0,
         utbetalingslinjer: []

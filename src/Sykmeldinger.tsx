@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import Vis from './components/vis'
+import useSykmeldinger from './queries/useSykmeldinger'
 import { Sykmelding } from './types/Sykmelding'
 import env from './utils/environment'
 
@@ -18,44 +19,12 @@ function skapTekstFraSykmelding(sykmelding: Sykmelding): string {
 interface Props {
     setValgteSykmeldinger: (b: Sykmelding[]) => void
     valgteSykmeldinger: Sykmelding[]
-    setFikk401: (b: boolean) => void
-    fikk401: boolean
 }
 
-function Sykmeldinger({ setValgteSykmeldinger, valgteSykmeldinger, setFikk401, fikk401 }: Props) {
+function Sykmeldinger({ setValgteSykmeldinger, valgteSykmeldinger }: Props) {
 
-    const [ sykmeldinger, setSykmeldinger ] = useState<Sykmelding[]>([])
-
-    useEffect(() => {
-        async function fetchData() {
-            const data = await fetch(`${env.sykmeldingerBackendProxyRoot}/api/v1/sykmeldinger`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            if (data.ok) {
-                const sykmeldinger = await data.json()
-                setSykmeldinger(sykmeldinger.map((json: any) => new Sykmelding(json)))
-            } else {
-                if (data.status === 401) {
-                    setFikk401(true)
-                } else {
-                    try {
-                        const tekst = await data.text()
-                        window.alert('Oops, noe gikk galt ved henting av sykmeldinger\n' + tekst)
-
-                    } catch (e) {
-                        window.alert('Oops, noe gikk galt ved henting av sykmeldinger')
-                    }
-                }
-            }
-        }
-
-        fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
-
-    }, [ setValgteSykmeldinger, setFikk401 ])
-
-    if (fikk401) {
+    const { data: sykmeldinger } = useSykmeldinger()
+    if (!sykmeldinger) {
         return null
     }
     return (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
+import useFodselsnummer from './queries/useFodselsnummer'
 import {
     sprefUtbetalingTilArbeidsgiverOppdrag
 } from './SprefUtbetaling'
@@ -17,7 +18,6 @@ import env from './utils/environment'
 interface Props {
     automatiskBehandling: boolean
     setTriggFetchVedtak: (b: string) => void,
-    fodselsnummer: string,
     månedsinntekt: number,
     valgteSykmeldinger: Sykmelding[],
     valgteSoknader: Soknad[],
@@ -31,7 +31,6 @@ interface Props {
 
 function SendSomNyttVedtak({
     setTriggFetchVedtak,
-    fodselsnummer,
     månedsinntekt,
     automatiskBehandling,
     valgteSykmeldinger,
@@ -45,12 +44,13 @@ function SendSomNyttVedtak({
 }: Props) {
 
     const [ fetching, setFetching ] = useState(false)
+    const { data: fodselsnummer } = useFodselsnummer()
 
 
     const genererVedtakV2 = () => {
         const vedtak: VedtakFattetForEksternDto = {
-            fødselsnummer: fodselsnummer,
-            aktørId: fodselsnummer,
+            fødselsnummer: fodselsnummer!,
+            aktørId: fodselsnummer!,
             organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
             fom: fomTom.fom,
             tom: fomTom.tom,
@@ -72,8 +72,8 @@ function SendSomNyttVedtak({
         const utbetaling: UtbetalingUtbetalt = {
             event: 'utbetaling_utbetalt',
             utbetalingId: uuid(),
-            fødselsnummer: fodselsnummer,
-            aktørId: fodselsnummer,
+            fødselsnummer: fodselsnummer!,
+            aktørId: fodselsnummer!,
             organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
             fom: fomTom.fom,
             tom: fomTom.tom,
@@ -89,6 +89,10 @@ function SendSomNyttVedtak({
             vedtak: vedtak,
             utbetaling: utbetaling
         } as any
+    }
+
+    if(!fodselsnummer){
+        return null
     }
 
     return (

@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
+import useFodselsnummer from './queries/useFodselsnummer'
 import env from './utils/environment'
 
 interface Props {
     setTriggFetchVedtak: (b: string) => void
-    fodselsnummer: string
 }
 
-function SlettVedtak({ setTriggFetchVedtak, fodselsnummer }: Props) {
+function SlettVedtak({ setTriggFetchVedtak }: Props) {
 
+    const { data: fodselsnummer } = useFodselsnummer()
     const [ fetching, setFetching ] = useState(false)
 
     return (

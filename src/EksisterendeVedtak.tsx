@@ -3,21 +3,20 @@ import React, { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import Vis from './components/vis'
-import { AnnulleringDto  } from './types/VedtakV1'
+import useFodselsnummer from './queries/useFodselsnummer'
+import { AnnulleringDto } from './types/VedtakV1'
 import { RSVedtakWrapper } from './types/VedtakV2'
 import env from './utils/environment'
 
 interface Props {
-    fodselsnummer: string,
-    setFikk401: (b: boolean) => void
-    fikk401: boolean
     setTriggFetchVedtak: (s: string) => void
     triggFetchVedtak: string
 }
 
-function EksisterendeVedtak({ setFikk401, fikk401, fodselsnummer, setTriggFetchVedtak, triggFetchVedtak }: Props) {
+function EksisterendeVedtak({ setTriggFetchVedtak, triggFetchVedtak }: Props) {
 
     const [ vedtak, setVedtak ] = useState<RSVedtakWrapper[]>([])
+    const { data: fodselsnummer } = useFodselsnummer()
 
     useEffect(() => {
         async function fetchData() {
@@ -30,8 +29,8 @@ function EksisterendeVedtak({ setFikk401, fikk401, fodselsnummer, setTriggFetchV
                 const vedtak = await data.json()
                 setVedtak(vedtak.map((json: RSVedtakWrapper) => json))
             } else {
+                // eslint-disable-next-line no-empty
                 if (data.status === 401) {
-                    setFikk401(true)
                 } else {
                     window.alert('Oops, noe gikk galt ved henting av vedtak')
                 }
@@ -40,7 +39,7 @@ function EksisterendeVedtak({ setFikk401, fikk401, fodselsnummer, setTriggFetchV
 
         fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
 
-    }, [ setVedtak, setFikk401, triggFetchVedtak ])
+    }, [ setVedtak, triggFetchVedtak ])
 
     async function annullerVedtak(vedtak: RSVedtakWrapper) {
 
@@ -48,7 +47,7 @@ function EksisterendeVedtak({ setFikk401, fikk401, fodselsnummer, setTriggFetchV
             orgnummer: vedtak.vedtak.organisasjonsnummer!,
             fom: LocalDate.parse(vedtak.vedtak.fom),
             tom: LocalDate.parse(vedtak.vedtak.tom),
-            fødselsnummer: fodselsnummer,
+            fødselsnummer: fodselsnummer!,
             tidsstempel: LocalDateTime.now()
         }
 
@@ -67,7 +66,7 @@ function EksisterendeVedtak({ setFikk401, fikk401, fodselsnummer, setTriggFetchV
         }
     }
 
-    if (fikk401) {
+    if (!fodselsnummer) {
         return null
     }
     if (vedtak.length == 0) {

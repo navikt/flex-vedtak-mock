@@ -14,11 +14,9 @@ interface Props {
     setValgteSoknader: (b: Soknad[]) => void
     valgteSoknader: Soknad[]
     valgteSykmeldinger: Sykmelding[]
-    setFikk401: (b: boolean) => void
-    fikk401: boolean
 }
 
-function Soknader({ setValgteSoknader, valgteSoknader, valgteSykmeldinger, setFikk401, fikk401 }: Props) {
+function Soknader({ setValgteSoknader, valgteSoknader, valgteSykmeldinger }: Props) {
 
     const [ soknader, setSoknader ] = useState<Soknad[]>([])
 
@@ -33,8 +31,8 @@ function Soknader({ setValgteSoknader, valgteSoknader, valgteSykmeldinger, setFi
                 const soknader = await data.json()
                 setSoknader(soknader)
             } else {
+                // eslint-disable-next-line no-empty
                 if (data.status === 401) {
-                    setFikk401(true)
                 } else {
                     window.alert('Oops, noe gikk galt ved henting av sykepengesøknader')
                 }
@@ -43,11 +41,8 @@ function Soknader({ setValgteSoknader, valgteSoknader, valgteSykmeldinger, setFi
 
         fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
 
-    }, [ setValgteSoknader, valgteSykmeldinger, setFikk401 ])
+    }, [ setValgteSoknader, valgteSykmeldinger ])
 
-    if (fikk401) {
-        return null
-    }
 
     return (
         <div style={{ border: '1px solid', paddingBottom: '1em', paddingLeft: '1em' }}>
