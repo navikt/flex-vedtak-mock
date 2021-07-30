@@ -14,7 +14,7 @@ function Fodselsnummer() {
                 headers: { 'Content-Type': 'application/json' }
             })
             if (data.ok) {
-                const fnr = await data.json()
+                const fnr = await data.text()
                 setFodselsnummer(fnr)
             } else {
                 if (data.status === 401) {
