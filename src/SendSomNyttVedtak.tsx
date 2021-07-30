@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { v4 as uuid } from 'uuid'
 
 import useFodselsnummer from './queries/useFodselsnummer'
+import useOpprettVedtak from './queries/useOpprettVedtak'
 import {
     sprefUtbetalingTilArbeidsgiverOppdrag
 } from './SprefUtbetaling'
@@ -13,7 +14,6 @@ import {
     UtbetalingUtbetalt,
     VedtakFattetForEksternDto
 } from './types/VedtakV2'
-import env from './utils/environment'
 
 interface Props {
     automatiskBehandling: boolean
@@ -41,9 +41,8 @@ function SendSomNyttVedtak({
     utbetalingsdager
 }: Props) {
 
-    const [ fetching, setFetching ] = useState(false)
     const { data: fodselsnummer } = useFodselsnummer()
-
+    const { mutate: opprettVedtak, isLoading } = useOpprettVedtak()
 
     const genererVedtakV2 = () => {
         const vedtak: VedtakFattetForEksternDto = {
@@ -89,34 +88,19 @@ function SendSomNyttVedtak({
         } as any
     }
 
-    if(!fodselsnummer){
+    if (!fodselsnummer) {
         return null
     }
 
     return (
         <div style={{ paddingTop: '1em' }}>
-            <button disabled={fetching} style={{ fontSize: 40 }} onClick={async() => {
-                try {
-                    setFetching(true)
-                    const vedtak = genererVedtakV2()
-                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/testdata/vedtak`, {
-                        method: 'POST',
-                        credentials: 'include',
-                        body: JSON.stringify({
-                            vedtak: JSON.stringify(vedtak.vedtak),
-                            utbetaling: JSON.stringify(vedtak.utbetaling)
-                        }),
-                        headers: { 'Content-Type': 'application/json' }
-                    })
-                    if (res.ok) {
-                        const tekst = await res.text()
-                        window.alert(tekst)
-                    } else {
-                        window.alert('Noe gikk galt ved publisering av vedtak og utbetaling')
-                    }
-                } finally {
-                    setFetching(false)
-                }
+            <button disabled={isLoading} style={{ fontSize: 40 }} onClick={async() => {
+                const vedtak = genererVedtakV2()
+
+                opprettVedtak(JSON.stringify({
+                    vedtak: JSON.stringify(vedtak.vedtak),
+                    utbetaling: JSON.stringify(vedtak.utbetaling)
+                }))
 
             }}>Send som nytt vedtak med utbetalingsdager <span role={'img'} aria-label={'Judge'}>👨‍⚖️</span>
             </button>
