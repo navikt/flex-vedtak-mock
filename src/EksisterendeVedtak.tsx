@@ -1,45 +1,19 @@
 import { LocalDate, LocalDateTime } from '@js-joda/core'
-import React, { useEffect, useState } from 'react'
-import { v4 as uuid } from 'uuid'
+import React from 'react'
 
 import Vis from './components/vis'
 import useFodselsnummer from './queries/useFodselsnummer'
+import useVedtak from './queries/useVedtak'
 import { AnnulleringDto } from './types/VedtakV1'
 import { RSVedtakWrapper } from './types/VedtakV2'
 import env from './utils/environment'
 
-interface Props {
-    setTriggFetchVedtak: (s: string) => void
-    triggFetchVedtak: string
-}
 
-function EksisterendeVedtak({ setTriggFetchVedtak, triggFetchVedtak }: Props) {
+function EksisterendeVedtak() {
 
-    const [ vedtak, setVedtak ] = useState<RSVedtakWrapper[]>([])
     const { data: fodselsnummer } = useFodselsnummer()
+    const { data: vedtak } = useVedtak()
 
-    useEffect(() => {
-        async function fetchData() {
-            const data = await fetch(`${env.flexGatewayRoot}/spinnsyn-backend/api/v2/vedtak`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            if (data.ok) {
-                const vedtak = await data.json()
-                setVedtak(vedtak.map((json: RSVedtakWrapper) => json))
-            } else {
-                // eslint-disable-next-line no-empty
-                if (data.status === 401) {
-                } else {
-                    window.alert('Oops, noe gikk galt ved henting av vedtak')
-                }
-            }
-        }
-
-        fetchData().catch((e: any) => window.alert(`Ooops! ${e}`))
-
-    }, [ setVedtak, triggFetchVedtak ])
 
     async function annullerVedtak(vedtak: RSVedtakWrapper) {
 
@@ -60,7 +34,6 @@ function EksisterendeVedtak({ setTriggFetchVedtak, triggFetchVedtak }: Props) {
         if (res.ok) {
             const tekst = await res.text()
             window.alert(tekst)
-            setTriggFetchVedtak(uuid())
         } else {
             window.alert('Noe gikk galt ved publisering av vedtak')
         }
@@ -69,7 +42,7 @@ function EksisterendeVedtak({ setTriggFetchVedtak, triggFetchVedtak }: Props) {
     if (!fodselsnummer) {
         return null
     }
-    if (vedtak.length == 0) {
+    if (!vedtak) {
         return null
     }
     return (

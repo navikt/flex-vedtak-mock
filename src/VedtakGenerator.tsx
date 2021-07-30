@@ -1,6 +1,5 @@
 import { LocalDate } from '@js-joda/core'
 import React, { useState } from 'react'
-import { v4 as uuid } from 'uuid'
 
 import AutomatiskBehandling from './AutomatiskBehandling'
 import Dagsats from './Dagsats'
@@ -36,7 +35,6 @@ function VedtakGenerator() {
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
     const [ sprefUtbetaling, setSprefUtbetaling ] = useState<UtbetalingDto>()
     const [ utbetalingsdager, setUtbetalingsdager ] = useState<UtbetalingdagDto[]>([])
-    const [ triggFetchVedtak, setTriggFetchVedtak ] = useState<string>(uuid())
     const [ utbetalingstype, setUtbetalingstype ] = useState<string>('UTBETALING')
 
     const [ fomTom, setFomTom ] = useState<FomTom>({
@@ -106,7 +104,6 @@ function VedtakGenerator() {
             />
             <SendSomNyttVedtak
                 automatiskBehandling={automatiskBehandling}
-                setTriggFetchVedtak={setTriggFetchVedtak}
                 månedsinntekt={månedsinntekt}
                 valgteSykmeldinger={valgteSykmeldinger}
                 valgteSoknader={valgteSoknader}
@@ -117,11 +114,8 @@ function VedtakGenerator() {
                 sprefUtbetaling={sprefUtbetaling}
                 utbetalingsdager={utbetalingsdager}
             />
-            <SlettVedtak
-                setTriggFetchVedtak={setTriggFetchVedtak} />
-            <EksisterendeVedtak
-                setTriggFetchVedtak={setTriggFetchVedtak}
-                triggFetchVedtak={triggFetchVedtak} />
+            <SlettVedtak />
+            <EksisterendeVedtak />
         </div>
     )
 }

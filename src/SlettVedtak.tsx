@@ -1,39 +1,18 @@
-import React, { useState } from 'react'
-import { v4 as uuid } from 'uuid'
+import React from 'react'
 
 import useFodselsnummer from './queries/useFodselsnummer'
-import env from './utils/environment'
+import useSlettVedtak from './queries/useSlettVedtak'
 
-interface Props {
-    setTriggFetchVedtak: (b: string) => void
-}
 
-function SlettVedtak({ setTriggFetchVedtak }: Props) {
+function SlettVedtak() {
 
     const { data: fodselsnummer } = useFodselsnummer()
-    const [ fetching, setFetching ] = useState(false)
+    const { mutate: slettVedtak, isLoading } = useSlettVedtak()
 
     return (
         <div style={{ paddingTop: '1em' }}>
-            <button disabled={fetching} style={{ fontSize: 40 }} onClick={async() => {
-                try {
-                    setFetching(true)
-                    const res = await fetch(`${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/testdata/vedtak`, {
-                        method: 'DELETE',
-                        credentials: 'include'
-                    })
-                    if (res.ok) {
-                        const tekst = await res.text()
-                        window.alert(tekst)
-                        setTriggFetchVedtak(uuid())
-
-                    } else {
-                        window.alert('Noe gikk galt ved sletting av vedtak')
-                    }
-                } finally {
-                    setFetching(false)
-                }
-
+            <button disabled={isLoading} style={{ fontSize: 40 }} onClick={async() => {
+                slettVedtak()
             }}>Slett alle vedtak på {fodselsnummer} <span role={'img'} aria-label={'Wastebasket'}>🗑️️</span>
             </button>
         </div>

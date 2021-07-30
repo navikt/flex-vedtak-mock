@@ -17,7 +17,6 @@ import env from './utils/environment'
 
 interface Props {
     automatiskBehandling: boolean
-    setTriggFetchVedtak: (b: string) => void,
     månedsinntekt: number,
     valgteSykmeldinger: Sykmelding[],
     valgteSoknader: Soknad[],
@@ -30,7 +29,6 @@ interface Props {
 }
 
 function SendSomNyttVedtak({
-    setTriggFetchVedtak,
     månedsinntekt,
     automatiskBehandling,
     valgteSykmeldinger,
@@ -113,7 +111,6 @@ function SendSomNyttVedtak({
                     if (res.ok) {
                         const tekst = await res.text()
                         window.alert(tekst)
-                        setTriggFetchVedtak(uuid())
                     } else {
                         window.alert('Noe gikk galt ved publisering av vedtak og utbetaling')
                     }

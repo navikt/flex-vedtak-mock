@@ -1,17 +1,16 @@
 import { useQuery } from 'react-query'
 
+import { RSVedtakWrapper } from '../types/VedtakV2'
 import env from '../utils/environment'
 import { authenticatedFetch } from '../utils/fetch'
 
 export default function() {
-    return useQuery<string, Error>('fodselsnummer', () =>
+    return useQuery<RSVedtakWrapper[], Error>('vedtak', () =>
         authenticatedFetch(
-            `${env.flexInternGatewayRoot}/spinnsyn-backend-testdata/api/v1/testdata/fnr`,
+            `${env.flexGatewayRoot}/spinnsyn-backend/api/v2/vedtak`,
             async(data) => {
-                return data as string
+                return data as RSVedtakWrapper[]
             },
-            'GET',
-            true,
         ),
     )
 }
