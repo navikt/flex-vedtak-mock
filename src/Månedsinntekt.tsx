@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { useAppStore } from './stores/app-store'
+interface Props {
+    månedsinntekt: number,
+    setMånedsinntekt: (b: number) => void
+}
 
 
-export default () => {
-    const { setMånedsinntekt, månedsinntekt } = useAppStore()
-
+export default ({ setMånedsinntekt, månedsinntekt }: Props) => {
 
     return (
         <div style={{ border: '1px solid', padding: '1em' }}>

@@ -2,24 +2,32 @@ import { DayOfWeek, LocalDate } from '@js-joda/core'
 import React, { useEffect, useState } from 'react'
 
 import { sprefUtbetalingTilArbeidsgiverOppdrag } from './SprefUtbetaling'
-import { useAppStore } from './stores/app-store'
+import { Sykmelding } from './types/Sykmelding'
+import { UtbetalingDto } from './types/VedtakV1'
 import { OppdragDto, UtbetalingdagDto } from './types/VedtakV2'
 
 
-export default () => {
-    const { utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, valgteSykmeldinger } = useAppStore()
+interface Props {
+    utbetalingsdager: UtbetalingdagDto[],
+    setUtbetalingsdager: (b: UtbetalingdagDto[]) => void
+    sprefUtbetaling: UtbetalingDto | undefined,
+    valgteSykmeldinger: Sykmelding[]
+}
+
+
+export default ({ utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, valgteSykmeldinger }: Props) => {
+
     const [ brukUtbetalingsdager, setBrukUtbetalingsdager ] = useState(false)
 
     useEffect(() => {
         if (brukUtbetalingsdager) {
             const arbeidsgiverOppdrag = sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling!)
             setUtbetalingsdager(skapUtbetalingsdager(arbeidsgiverOppdrag))
-        }
-        else {
+        } else {
             setUtbetalingsdager([])
         }
         // eslint-disable-next-line
-    }, [ brukUtbetalingsdager, setUtbetalingsdager, sprefUtbetaling ])
+    }, [brukUtbetalingsdager, setUtbetalingsdager, sprefUtbetaling])
 
     function skapUtbetalingsdager(oppdrag: OppdragDto): UtbetalingdagDto[] {
         const dager: UtbetalingdagDto[] = []
@@ -28,18 +36,17 @@ export default () => {
             ? LocalDate.parse(valgteSykmeldinger[0].syketilfelleStartDato.toISOString().split('T')[0])
             : oppdrag.utbetalingslinjer[0].fom
 
-        while(dag < oppdrag.utbetalingslinjer[0].fom && arbeidsgiverperiode-- > 0) {
+        while (dag < oppdrag.utbetalingslinjer[0].fom && arbeidsgiverperiode-- > 0) {
             dager.push({ dato: dag, type: 'ArbeidsgiverperiodeDag', begrunnelser: [] })
             dag = dag.plusDays(1)
         }
 
         oppdrag.utbetalingslinjer.forEach((linje) => {
             dag = linje.fom
-            while(dag <= linje.tom) {
+            while (dag <= linje.tom) {
                 if (dag.dayOfWeek() === DayOfWeek.SATURDAY || dag.dayOfWeek() === DayOfWeek.SUNDAY) {
                     dager.push({ dato: dag, type: 'NavHelgDag', begrunnelser: [] })
-                }
-                else {
+                } else {
                     dager.push({ dato: dag, type: 'NavDag', begrunnelser: [] })
                 }
                 dag = dag.plusDays(1)
@@ -82,9 +89,12 @@ export default () => {
                                 <option value="Arbeidsdag">Arbeidsdag</option>
                                 <option value="Fridag">Fridag</option>
                                 <option value="ForeldetDag">ForeldetDag</option>
-                                <option value="AvvistDag" id="SykepengedagerOppbrukt">Avvist - SykepengedagerOppbrukt</option>
+                                <option value="AvvistDag" id="SykepengedagerOppbrukt">Avvist - SykepengedagerOppbrukt
+                                </option>
                                 <option value="AvvistDag" id="MinimumInntekt">Avvist - MinimumInntekt</option>
-                                <option value="AvvistDag" id="EgenmeldingUtenforArbeidsgiverperiode">Avvist - EgenmeldingUtenforArbeidsgiverperiode</option>
+                                <option value="AvvistDag" id="EgenmeldingUtenforArbeidsgiverperiode">Avvist -
+                                    EgenmeldingUtenforArbeidsgiverperiode
+                                </option>
                                 <option value="AvvistDag" id="MinimumSykdomsgrad">Avvist - MinimumSykdomsgrad</option>
                                 <option value="AvvistDag" id="ManglerOpptjening">Avvist - ManglerOpptjening</option>
                                 <option value="AvvistDag" id="ManglerMedlemskap">Avvist - ManglerMedlemskap</option>

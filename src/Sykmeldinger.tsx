@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import Vis from './components/vis'
-import { useAppStore } from './stores/app-store'
 import { Sykmelding } from './types/Sykmelding'
 import env from './utils/environment'
 
@@ -16,8 +15,14 @@ function skapTekstFraSykmelding(sykmelding: Sykmelding): string {
     return tekst
 }
 
-function Sykmeldinger() {
-    const { setValgteSykmeldinger, valgteSykmeldinger, setFikk401, fikk401 } = useAppStore()
+interface Props {
+    setValgteSykmeldinger: (b: Sykmelding[]) => void
+    valgteSykmeldinger: Sykmelding[]
+    setFikk401: (b: boolean) => void
+    fikk401: boolean
+}
+
+function Sykmeldinger({ setValgteSykmeldinger, valgteSykmeldinger, setFikk401, fikk401 }: Props) {
 
     const [ sykmeldinger, setSykmeldinger ] = useState<Sykmelding[]>([])
 

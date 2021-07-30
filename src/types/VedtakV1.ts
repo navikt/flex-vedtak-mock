@@ -1,18 +1,5 @@
 import { LocalDate, LocalDateTime } from '@js-joda/core'
 
-export interface VedtakDto {
-    organisasjonsnummer: string;
-    automatiskBehandling: boolean;
-    fom: LocalDate;
-    tom: LocalDate;
-    månedsinntekt: number;
-    forbrukteSykedager: number;
-    gjenståendeSykedager: number;
-    utbetalinger: UtbetalingDto[];
-    dokumenter: Dokument[];
-}
-
-
 export interface UtbetalingDto {
     mottaker: string;
     fagområde: string;
@@ -30,11 +17,6 @@ export interface UtbetalingslinjeDto {
     grad: number;
     sykedager: number;
     _id?: string;
-}
-
-interface Dokument {
-    dokumentId: string;
-    type: 'Sykmelding' | 'Søknad' | 'Inntektsmelding';
 }
 
 

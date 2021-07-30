@@ -1,10 +1,15 @@
 import React from 'react'
 
-import { useAppStore } from './stores/app-store'
 
+interface Props {
+    automatiskBehandling: boolean,
+    setAutomatiskBehandling: (b: boolean) => void
+}
 
-export default () => {
-    const { setAutomatiskBehandling, automatiskBehandling } = useAppStore()
+export default ({
+    automatiskBehandling,
+    setAutomatiskBehandling
+}: Props) => {
 
 
     return (

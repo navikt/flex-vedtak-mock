@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { useAppStore } from './stores/app-store'
+interface Props {
+    utbetalingstype: string,
+    setUtbetalingstype: (b: string) => void
+}
 
-
-export default () => {
-    const { utbetalingstype, setUtbetalingstype } = useAppStore()
-
+export default ({ utbetalingstype, setUtbetalingstype } : Props) => {
 
     return (
         <div style={{ border: '1px solid', padding: '1em' }}>

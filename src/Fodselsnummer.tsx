@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react'
 
-import { useAppStore } from './stores/app-store'
 import env from './utils/environment'
 
-function Fodselsnummer() {
-    const { fodselsnummer, setFodselsnummer, setFikk401 } = useAppStore()
+interface Props {
+    fodselsnummer: string,
+    setFodselsnummer: (b: string) => void
+    setFikk401: (b: boolean) => void
+}
+
+function Fodselsnummer({ fodselsnummer, setFodselsnummer, setFikk401 }: Props) {
+
 
     useEffect(() => {
         async function fetchData() {

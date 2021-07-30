@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
-import { useAppStore } from './stores/app-store'
 import env from './utils/environment'
 
+interface Props {
+    setTriggFetchVedtak: (b: string) => void
+    fodselsnummer: string
+}
 
-function SlettVedtak() {
+function SlettVedtak({ setTriggFetchVedtak, fodselsnummer }: Props) {
 
     const [ fetching, setFetching ] = useState(false)
-    const { setTriggFetchVedtak, fodselsnummer } = useAppStore()
 
     return (
         <div style={{ paddingTop: '1em' }}>

@@ -1,10 +1,16 @@
 import { LocalDate } from '@js-joda/core'
 import React, { useEffect } from 'react'
 
-import { useAppStore } from './stores/app-store'
+import { Soknad } from './types/Soknad'
+import { FomTom } from './types/VedtakV1'
 
-function Datoer() {
-    const { setFomTom, fomTom, valgteSoknader } = useAppStore()
+interface Props {
+    fomTom: FomTom,
+    valgteSoknader: Soknad[],
+    setFomTom: (b: FomTom) => void
+}
+
+function Datoer({ setFomTom, fomTom, valgteSoknader }: Props) {
 
     useEffect(() => {
         if (valgteSoknader.length > 0) {

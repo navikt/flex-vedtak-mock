@@ -4,31 +4,48 @@ import { v4 as uuid } from 'uuid'
 import {
     sprefUtbetalingTilArbeidsgiverOppdrag
 } from './SprefUtbetaling'
-import { useAppStore } from './stores/app-store'
+import { Soknad } from './types/Soknad'
+import { Sykmelding } from './types/Sykmelding'
+import { FomTom, UtbetalingDto } from './types/VedtakV1'
 import {
+    UtbetalingdagDto,
     UtbetalingUtbetalt,
     VedtakFattetForEksternDto
 } from './types/VedtakV2'
 import env from './utils/environment'
 
+interface Props {
+    automatiskBehandling: boolean
+    setTriggFetchVedtak: (b: string) => void,
+    fodselsnummer: string,
+    månedsinntekt: number,
+    valgteSykmeldinger: Sykmelding[],
+    valgteSoknader: Soknad[],
+    forbrukteSykedager: number,
+    gjenstaendeSykedager: number,
+    utbetalingstype: string,
+    fomTom: FomTom,
+    sprefUtbetaling: UtbetalingDto | undefined,
+    utbetalingsdager: UtbetalingdagDto[]
+}
 
-function SendSomNyttVedtak() {
+function SendSomNyttVedtak({
+    setTriggFetchVedtak,
+    fodselsnummer,
+    månedsinntekt,
+    automatiskBehandling,
+    valgteSykmeldinger,
+    valgteSoknader,
+    forbrukteSykedager,
+    gjenstaendeSykedager,
+    utbetalingstype,
+    fomTom,
+    sprefUtbetaling,
+    utbetalingsdager
+}: Props) {
 
     const [ fetching, setFetching ] = useState(false)
-    const {
-        setTriggFetchVedtak,
-        fodselsnummer,
-        månedsinntekt,
-        automatiskBehandling,
-        valgteSykmeldinger,
-        valgteSoknader,
-        forbrukteSykedager,
-        gjenstaendeSykedager,
-        utbetalingstype,
-        fomTom,
-        sprefUtbetaling,
-        utbetalingsdager
-    } = useAppStore()
+
 
     const genererVedtakV2 = () => {
         const vedtak: VedtakFattetForEksternDto = {

@@ -2,17 +2,36 @@ import { DayOfWeek, LocalDate } from '@js-joda/core'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 
-import { useAppStore } from './stores/app-store'
 import { Soknad } from './types/Soknad'
 import { SprefVariant } from './types/SprefVariant'
 import { FomTom, UtbetalingDto, UtbetalingslinjeDto } from './types/VedtakV1'
 import { OppdragDto } from './types/VedtakV2'
 import { Utbetaling } from './Utbetaling'
 
+interface Props {
+    dagsats: number,
+    fomTom: FomTom,
+    sprefvariant: SprefVariant
+    setSprefvariant: (s: SprefVariant) => void
+    setForbrukteSykedager: (s: number) => void
+    setSprefUtbetaling: (s: UtbetalingDto) => void
+    valgteSoknader: Soknad[],
+    forbrukteSykedager: number,
+    sprefUtbetaling: UtbetalingDto | undefined,
+}
 
-function SprefUtbetaling() {
+function SprefUtbetaling({
+    dagsats,
+    fomTom,
+    valgteSoknader,
+    sprefvariant,
+    setSprefvariant,
+    forbrukteSykedager,
+    setForbrukteSykedager,
+    sprefUtbetaling,
+    setSprefUtbetaling
+}: Props) {
 
-    const { dagsats, fomTom, valgteSoknader, sprefvariant, setSprefvariant, forbrukteSykedager, setForbrukteSykedager, sprefUtbetaling, setSprefUtbetaling } = useAppStore()
     const [ dagerInkludertIFomTom, setDagerInkludertIFomTom ] = useState<number>(finnDagerInkludertIFomTom(fomTom))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const varianterSomTrengerLangPeriode: SprefVariant[] = [ 'opphold-midt-i', '80% og 100%' ]

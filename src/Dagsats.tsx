@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { useAppStore } from './stores/app-store'
+interface Props {
+    dagsats: number,
+    setDagsats: (b: number) => void
+}
 
-
-export default () => {
-    const { setDagsats, dagsats } = useAppStore()
+export default ({ setDagsats, dagsats }: Props) => {
 
 
     return (

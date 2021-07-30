@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import { useAppStore } from './stores/app-store'
 import { Soknad } from './types/Soknad'
+import { Sykmelding } from './types/Sykmelding'
 import env from './utils/environment'
 
 
@@ -10,9 +10,15 @@ function skapTekstFraSoknad(soknad: Soknad, valgtSykmelding: boolean): string {
     return `${soknad.id} ${soknad.status} ${soknad.soknadstype} ${soknad.fom} - ${soknad.tom} ${valgtSykmelding ? ' VALGT SYKMELDING' : ''}`
 }
 
-function Soknader() {
+interface Props {
+    setValgteSoknader: (b: Soknad[]) => void
+    valgteSoknader: Soknad[]
+    valgteSykmeldinger: Sykmelding[]
+    setFikk401: (b: boolean) => void
+    fikk401: boolean
+}
 
-    const { setValgteSoknader, valgteSoknader, valgteSykmeldinger, setFikk401, fikk401 } = useAppStore()
+function Soknader({ setValgteSoknader, valgteSoknader, valgteSykmeldinger, setFikk401, fikk401 }: Props) {
 
     const [ soknader, setSoknader ] = useState<Soknad[]>([])
 

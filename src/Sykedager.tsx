@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react'
 
-import { useAppStore } from './stores/app-store'
+interface Props {
+    forbrukteSykedager: number,
+    setForbrukteSykedager: (b: number) => void
+    gjenstaendeSykedager: number,
+    setGjenstaendeSykedager: (b: number) => void
+}
 
-
-function Sykedager() {
-    const { setForbrukteSykedager, setGjenstaendeSykedager, forbrukteSykedager, gjenstaendeSykedager } = useAppStore()
+function Sykedager({ setForbrukteSykedager, setGjenstaendeSykedager, forbrukteSykedager, gjenstaendeSykedager }: Props) {
     const maxSykedager = 195
 
     useEffect(() => {

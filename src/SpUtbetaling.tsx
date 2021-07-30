@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 
-import { useAppStore } from './stores/app-store'
 import { UtbetalingDto } from './types/VedtakV1'
 import { Utbetaling } from './Utbetaling'
 
+interface Props {
+    fodselsnummer: string
+}
 
-function SpUtbetaling() {
+function SpUtbetaling({ fodselsnummer }: Props) {
 
-    const { fodselsnummer } = useAppStore()
     const [ utbetaling, setUtbetaling ] = useState<UtbetalingDto>(skapSpUtbetaling(fodselsnummer))
 
     useEffect(() => {

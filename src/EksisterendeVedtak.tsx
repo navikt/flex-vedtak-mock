@@ -3,13 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import Vis from './components/vis'
-import { useAppStore } from './stores/app-store'
-import { AnnulleringDto } from './types/VedtakV1'
+import { AnnulleringDto  } from './types/VedtakV1'
 import { RSVedtakWrapper } from './types/VedtakV2'
 import env from './utils/environment'
 
-function EksisterendeVedtak() {
-    const { setFikk401, fikk401, fodselsnummer, setTriggFetchVedtak, triggFetchVedtak } = useAppStore()
+interface Props {
+    fodselsnummer: string,
+    setFikk401: (b: boolean) => void
+    fikk401: boolean
+    setTriggFetchVedtak: (s: string) => void
+    triggFetchVedtak: string
+}
+
+function EksisterendeVedtak({ setFikk401, fikk401, fodselsnummer, setTriggFetchVedtak, triggFetchVedtak }: Props) {
 
     const [ vedtak, setVedtak ] = useState<RSVedtakWrapper[]>([])
 
