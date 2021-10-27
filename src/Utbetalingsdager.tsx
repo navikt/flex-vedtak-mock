@@ -99,6 +99,7 @@ export default ({ utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, valgte
                                 <option value="AvvistDag" id="ManglerOpptjening">Avvist - ManglerOpptjening</option>
                                 <option value="AvvistDag" id="ManglerMedlemskap">Avvist - ManglerMedlemskap</option>
                                 <option value="AvvistDag" id="EtterDødsdato">Avvist - EtterDødsdato</option>
+                                <option value="AvvistDag" id="Over70">Avvist - Over70</option>
                                 <option value="UkjentDag">UkjentDag</option>
                             </select>
                         </div>
