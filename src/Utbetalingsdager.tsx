@@ -91,8 +91,8 @@ export default ({ utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, valgte
                                 <option value="ForeldetDag">ForeldetDag</option>
                                 <option value="AvvistDag" id="SykepengedagerOppbrukt">Avvist - SykepengedagerOppbrukt</option>
                                 <option value="AvvistDag" id="SykepengedagerOppbruktOver67">Avvist - SykepengedagerOppbrukt - Over 67</option>
-                                <option value="AvvistDag" id="MinimumInntekt">Avvist - MinimumInntekt - Over 67</option>
-                                <option value="AvvistDag" id="MinimumInntektOver67">Avvist - MinimumInntekt</option>
+                                <option value="AvvistDag" id="MinimumInntekt">Avvist - MinimumInntekt</option>
+                                <option value="AvvistDag" id="MinimumInntektOver67">Avvist - MinimumInntekt - Over 67</option>
                                 <option value="AvvistDag" id="EgenmeldingUtenforArbeidsgiverperiode">Avvist -
                                     EgenmeldingUtenforArbeidsgiverperiode
                                 </option>
