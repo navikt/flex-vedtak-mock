@@ -74,6 +74,7 @@ function SendSomNyttVedtak({
             organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
             fom: fomTom.fom,
             tom: fomTom.tom,
+            antallVedtak: 1,
             forbrukteSykedager: forbrukteSykedager,
             gjenståendeSykedager: gjenstaendeSykedager,
             automatiskBehandling: automatiskBehandling,

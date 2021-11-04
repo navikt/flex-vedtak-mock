@@ -22,6 +22,7 @@ export interface UtbetalingUtbetalt {
     fom: LocalDate;
     tom: LocalDate;
     forbrukteSykedager: number;
+    antallVedtak: number;
     gjenståendeSykedager: number;
     automatiskBehandling: boolean;
     arbeidsgiverOppdrag: OppdragDto;
