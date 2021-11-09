@@ -6,8 +6,6 @@ import useOpprettVedtak from './queries/useOpprettVedtak'
 import {
     sprefUtbetalingTilArbeidsgiverOppdrag
 } from './SprefUtbetaling'
-import { Soknad } from './types/Soknad'
-import { Sykmelding } from './types/Sykmelding'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
 import {
     UtbetalingdagDto,
@@ -18,8 +16,6 @@ import {
 interface Props {
     automatiskBehandling: boolean
     månedsinntekt: number,
-    valgteSykmeldinger: Sykmelding[],
-    valgteSoknader: Soknad[],
     forbrukteSykedager: number,
     gjenstaendeSykedager: number,
     utbetalingstype: string,
@@ -31,8 +27,6 @@ interface Props {
 function SendSomNyttVedtak({
     månedsinntekt,
     automatiskBehandling,
-    valgteSykmeldinger,
-    valgteSoknader,
     forbrukteSykedager,
     gjenstaendeSykedager,
     utbetalingstype,
@@ -48,7 +42,7 @@ function SendSomNyttVedtak({
         const vedtak: VedtakFattetForEksternDto = {
             fødselsnummer: fodselsnummer!,
             aktørId: fodselsnummer!,
-            organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
+            organisasjonsnummer: 'org-nr',
             fom: fomTom.fom,
             tom: fomTom.tom,
             skjæringstidspunkt: fomTom.fom,
@@ -58,20 +52,12 @@ function SendSomNyttVedtak({
             utbetalingId: undefined
         }
 
-        valgteSykmeldinger.forEach((s) => {
-            vedtak.dokumenter.push({ dokumentId: s.id, type: 'Sykmelding' })
-        })
-
-        valgteSoknader.forEach((s) => {
-            vedtak.dokumenter.push({ dokumentId: s.id, type: 'Søknad' })
-        })
-
         const utbetaling: UtbetalingUtbetalt = {
             event: 'utbetaling_utbetalt',
             utbetalingId: uuid(),
             fødselsnummer: fodselsnummer!,
             aktørId: fodselsnummer!,
-            organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
+            organisasjonsnummer: 'org-nr',
             fom: fomTom.fom,
             tom: fomTom.tom,
             antallVedtak: 1,

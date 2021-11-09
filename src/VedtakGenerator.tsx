@@ -9,14 +9,10 @@ import Fodselsnummer from './Fodselsnummer'
 import Månedsinntekt from './Månedsinntekt'
 import SendSomNyttVedtak from './SendSomNyttVedtak'
 import SlettVedtak from './SlettVedtak'
-import Soknader from './Soknader'
 import SprefUtbetaling from './SprefUtbetaling'
 import SpUtbetaling from './SpUtbetaling'
 import Sykedager from './Sykedager'
-import Sykmeldinger from './Sykmeldinger'
-import { Soknad } from './types/Soknad'
 import { SprefVariant } from './types/SprefVariant'
-import { Sykmelding } from './types/Sykmelding'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
 import { UtbetalingdagDto } from './types/VedtakV2'
 import Utbetalingsdager from './Utbetalingsdager'
@@ -29,8 +25,6 @@ function VedtakGenerator() {
     const [ månedsinntekt, setMånedsinntekt ] = useState<number>(37500)
     const [ dagsats, setDagsats ] = useState<number>(1404)
     const [ sprefvariant, setSprefvariant ] = useState<SprefVariant>('100%')
-    const [ valgteSykmeldinger, setValgteSykmeldinger ] = useState<Sykmelding[]>([])
-    const [ valgteSoknader, setValgteSoknader ] = useState<Soknad[]>([])
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
     const [ sprefUtbetaling, setSprefUtbetaling ] = useState<UtbetalingDto>()
@@ -54,18 +48,9 @@ function VedtakGenerator() {
             <h1 style={{ textAlign: 'center' }}>Vedtak testdatagenerator</h1>
             <Fodselsnummer />
 
-            <Sykmeldinger
-
-                valgteSykmeldinger={valgteSykmeldinger}
-                setValgteSykmeldinger={setValgteSykmeldinger} />
-            <Soknader
-                valgteSykmeldinger={valgteSykmeldinger}
-                valgteSoknader={valgteSoknader}
-                setValgteSoknader={setValgteSoknader} />
             <Datoer
                 fomTom={fomTom}
                 setFomTom={setFomTom}
-                valgteSoknader={valgteSoknader}
             />
             <Dagsats
                 dagsats={dagsats}
@@ -83,15 +68,15 @@ function VedtakGenerator() {
                 dagsats={dagsats}
                 forbrukteSykedager={forbrukteSykedager}
                 fomTom={fomTom}
-                valgteSoknader={valgteSoknader}
                 setSprefvariant={setSprefvariant}
                 sprefvariant={sprefvariant} />
             <SpUtbetaling />
             <Utbetalingsdager
                 sprefUtbetaling={sprefUtbetaling}
                 setUtbetalingsdager={setUtbetalingsdager}
-                valgteSykmeldinger={valgteSykmeldinger}
                 utbetalingsdager={utbetalingsdager}
+                fomTom={fomTom}
+
             />
             <Utbetalingstype
                 utbetalingstype={utbetalingstype}
@@ -105,8 +90,6 @@ function VedtakGenerator() {
             <SendSomNyttVedtak
                 automatiskBehandling={automatiskBehandling}
                 månedsinntekt={månedsinntekt}
-                valgteSykmeldinger={valgteSykmeldinger}
-                valgteSoknader={valgteSoknader}
                 forbrukteSykedager={forbrukteSykedager}
                 gjenstaendeSykedager={gjenstaendeSykedager}
                 utbetalingstype={utbetalingstype}
