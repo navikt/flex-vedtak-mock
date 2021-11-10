@@ -11,7 +11,12 @@ export interface VedtakFattetForEksternDto {
     inntekt: number;
     sykepengegrunnlag: number;
     utbetalingId?: string;
+    grunnlagForSykepengegrunnlagPerArbeidsgiver?: GrunnlagForSykepengegrunnlagPerArbeidsgiver,
 }
+export interface GrunnlagForSykepengegrunnlagPerArbeidsgiver {
+    [ orgnummer: string ]: number;
+}
+
 
 export interface UtbetalingUtbetalt {
     event: string;  // utbetaling_utbetalt, utbetaling_uten_utbetaling

@@ -8,6 +8,7 @@ import {
 } from './SprefUtbetaling'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
 import {
+    GrunnlagForSykepengegrunnlagPerArbeidsgiver,
     UtbetalingdagDto,
     UtbetalingUtbetalt,
     VedtakFattetForEksternDto
@@ -22,6 +23,7 @@ interface Props {
     utbetalingstype: string,
     orgnummer: string,
     fomTom: FomTom,
+    ekstraArbeidsgivere: GrunnlagForSykepengegrunnlagPerArbeidsgiver
     sprefUtbetaling: UtbetalingDto | undefined,
     utbetalingsdager: UtbetalingdagDto[]
 }
@@ -32,6 +34,7 @@ function SendSomNyttVedtak({
     forbrukteSykedager,
     gjenstaendeSykedager,
     utbetalingstype,
+    ekstraArbeidsgivere,
     orgnummer,
     fomTom,
     sprefUtbetaling,
@@ -49,11 +52,15 @@ function SendSomNyttVedtak({
             fom: fomTom.fom,
             tom: fomTom.tom,
             skjæringstidspunkt: fomTom.fom,
+            grunnlagForSykepengegrunnlagPerArbeidsgiver: {
+                ...ekstraArbeidsgivere
+            },
             dokumenter: [],
             inntekt: månedsinntekt,
             sykepengegrunnlag: månedsinntekt * 12,
             utbetalingId: undefined
         }
+        vedtak.grunnlagForSykepengegrunnlagPerArbeidsgiver![orgnummer] = månedsinntekt * 12
 
         const utbetaling: UtbetalingUtbetalt = {
             event: 'utbetaling_utbetalt',

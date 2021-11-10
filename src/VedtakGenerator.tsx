@@ -6,7 +6,7 @@ import Dagsats from './Dagsats'
 import Datoer from './Datoer'
 import EksisterendeVedtak from './EksisterendeVedtak'
 import Fodselsnummer from './Fodselsnummer'
-import Månedsinntekt from './Månedsinntekt'
+import { Inntekter } from './Inntekter'
 import { Orgnummer } from './Orgnummer'
 import SendSomNyttVedtak from './SendSomNyttVedtak'
 import SlettVedtak from './SlettVedtak'
@@ -15,7 +15,7 @@ import SpUtbetaling from './SpUtbetaling'
 import Sykedager from './Sykedager'
 import { SprefVariant } from './types/SprefVariant'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
-import { UtbetalingdagDto } from './types/VedtakV2'
+import { GrunnlagForSykepengegrunnlagPerArbeidsgiver, UtbetalingdagDto } from './types/VedtakV2'
 import Utbetalingsdager from './Utbetalingsdager'
 import Utbetalingstype from './Utbetalingstype'
 
@@ -24,6 +24,7 @@ function VedtakGenerator() {
 
     const [ automatiskBehandling, setAutomatiskBehandling ] = useState<boolean>(true)
     const [ månedsinntekt, setMånedsinntekt ] = useState<number>(37500)
+    const [ ekstraArbeidsgivere, setEkstraArbeidsgivere ] = useState<GrunnlagForSykepengegrunnlagPerArbeidsgiver>({})
     const [ dagsats, setDagsats ] = useState<number>(1404)
     const [ orgnummer, setOrgnummer ] = useState<string>('967170232')
     const [ sprefvariant, setSprefvariant ] = useState<SprefVariant>('100%')
@@ -61,9 +62,13 @@ function VedtakGenerator() {
             <Dagsats
                 dagsats={dagsats}
                 setDagsats={setDagsats} />
-            <Månedsinntekt
+            <Inntekter
+                orgnummer={orgnummer}
                 månedsinntekt={månedsinntekt}
-                setMånedsinntekt={setMånedsinntekt} />
+                setMånedsinntekt={setMånedsinntekt}
+                ekstraArbeidsgivere={ekstraArbeidsgivere}
+                setEkstraArbeidsgivere={setEkstraArbeidsgivere}
+            />
             <AutomatiskBehandling
                 automatiskBehandling={automatiskBehandling}
                 setAutomatiskBehandling={setAutomatiskBehandling} />
@@ -98,6 +103,7 @@ function VedtakGenerator() {
                 automatiskBehandling={automatiskBehandling}
                 månedsinntekt={månedsinntekt}
                 forbrukteSykedager={forbrukteSykedager}
+                ekstraArbeidsgivere={ekstraArbeidsgivere}
                 gjenstaendeSykedager={gjenstaendeSykedager}
                 utbetalingstype={utbetalingstype}
                 fomTom={fomTom}
