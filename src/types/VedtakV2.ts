@@ -10,11 +10,16 @@ export interface VedtakFattetForEksternDto {
     dokumenter: Dokument[];
     inntekt: number;
     sykepengegrunnlag: number;
+    grunnlagForSykepengegrunnlag: number;
     utbetalingId?: string;
-    grunnlagForSykepengegrunnlagPerArbeidsgiver?: GrunnlagForSykepengegrunnlagPerArbeidsgiver,
+    grunnlagForSykepengegrunnlagPerArbeidsgiver: GrunnlagForSykepengegrunnlagPerArbeidsgiver,
+    begrensning: Begrensning,
 }
+
+export type Begrensning = 'ER_6G_BEGRENSET' | 'ER_IKKE_6G_BEGRENSET' | 'VURDERT_I_INFOTRYGD' | 'VET_IKKE'
+
 export interface GrunnlagForSykepengegrunnlagPerArbeidsgiver {
-    [ orgnummer: string ]: number;
+    [orgnummer: string]: number;
 }
 
 

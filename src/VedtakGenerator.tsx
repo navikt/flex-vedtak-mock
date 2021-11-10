@@ -2,7 +2,6 @@ import { LocalDate } from '@js-joda/core'
 import React, { useState } from 'react'
 
 import AutomatiskBehandling from './AutomatiskBehandling'
-import Dagsats from './Dagsats'
 import Datoer from './Datoer'
 import EksisterendeVedtak from './EksisterendeVedtak'
 import Fodselsnummer from './Fodselsnummer'
@@ -15,7 +14,7 @@ import SpUtbetaling from './SpUtbetaling'
 import Sykedager from './Sykedager'
 import { SprefVariant } from './types/SprefVariant'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
-import { GrunnlagForSykepengegrunnlagPerArbeidsgiver, UtbetalingdagDto } from './types/VedtakV2'
+import { Begrensning, GrunnlagForSykepengegrunnlagPerArbeidsgiver, UtbetalingdagDto } from './types/VedtakV2'
 import Utbetalingsdager from './Utbetalingsdager'
 import Utbetalingstype from './Utbetalingstype'
 
@@ -26,6 +25,9 @@ function VedtakGenerator() {
     const [ månedsinntekt, setMånedsinntekt ] = useState<number>(37500)
     const [ ekstraArbeidsgivere, setEkstraArbeidsgivere ] = useState<GrunnlagForSykepengegrunnlagPerArbeidsgiver>({})
     const [ dagsats, setDagsats ] = useState<number>(1404)
+    const [ sykepengegrunnlag, setSykepengegrunnlag ] = useState<number>(0)
+    const [ grunnlagForSykepengegrunnlag, setGrunnlagForSykepengegrunnlag ] = useState<number>(0)
+    const [ begrensning, setBegrensning ] = useState<Begrensning>('VET_IKKE')
     const [ orgnummer, setOrgnummer ] = useState<string>('967170232')
     const [ sprefvariant, setSprefvariant ] = useState<SprefVariant>('100%')
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
@@ -59,15 +61,20 @@ function VedtakGenerator() {
                 orgnummer={orgnummer}
                 setOrgnummer={setOrgnummer}
             />
-            <Dagsats
-                dagsats={dagsats}
-                setDagsats={setDagsats} />
             <Inntekter
                 orgnummer={orgnummer}
                 månedsinntekt={månedsinntekt}
+                dagsats={dagsats}
+                setDagsats={setDagsats}
                 setMånedsinntekt={setMånedsinntekt}
                 ekstraArbeidsgivere={ekstraArbeidsgivere}
                 setEkstraArbeidsgivere={setEkstraArbeidsgivere}
+                begrensning={begrensning}
+                setBegrensning={setBegrensning}
+                sykepengegrunnlag={sykepengegrunnlag}
+                setSykepengegrunnlag={setSykepengegrunnlag}
+                grunnlagForSykepengegrunnlag={grunnlagForSykepengegrunnlag}
+                setGrunnlagForSykepengegrunnlag={setGrunnlagForSykepengegrunnlag}
             />
             <AutomatiskBehandling
                 automatiskBehandling={automatiskBehandling}
@@ -110,6 +117,10 @@ function VedtakGenerator() {
                 orgnummer={orgnummer}
                 sprefUtbetaling={sprefUtbetaling}
                 utbetalingsdager={utbetalingsdager}
+                sykepengegrunnlag={sykepengegrunnlag}
+                grunnlagForSykepengegrunnag={grunnlagForSykepengegrunnlag}
+                begrensning={begrensning}
+
             />
             <SlettVedtak />
             <EksisterendeVedtak />

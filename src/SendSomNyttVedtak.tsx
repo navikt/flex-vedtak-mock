@@ -8,6 +8,7 @@ import {
 } from './SprefUtbetaling'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
 import {
+    Begrensning,
     GrunnlagForSykepengegrunnlagPerArbeidsgiver,
     UtbetalingdagDto,
     UtbetalingUtbetalt,
@@ -25,7 +26,10 @@ interface Props {
     fomTom: FomTom,
     ekstraArbeidsgivere: GrunnlagForSykepengegrunnlagPerArbeidsgiver
     sprefUtbetaling: UtbetalingDto | undefined,
-    utbetalingsdager: UtbetalingdagDto[]
+    utbetalingsdager: UtbetalingdagDto[],
+    sykepengegrunnlag: number,
+    grunnlagForSykepengegrunnag: number,
+    begrensning: Begrensning,
 }
 
 function SendSomNyttVedtak({
@@ -38,29 +42,16 @@ function SendSomNyttVedtak({
     orgnummer,
     fomTom,
     sprefUtbetaling,
-    utbetalingsdager
+    utbetalingsdager,
+    sykepengegrunnlag,
+    grunnlagForSykepengegrunnag,
+    begrensning,
 }: Props) {
 
     const { data: fodselsnummer } = useFodselsnummer()
     const { mutate: opprettVedtak, isLoading } = useOpprettVedtak()
 
     const genererVedtakV2 = () => {
-        const vedtak: VedtakFattetForEksternDto = {
-            fødselsnummer: fodselsnummer!,
-            aktørId: fodselsnummer!,
-            organisasjonsnummer: orgnummer,
-            fom: fomTom.fom,
-            tom: fomTom.tom,
-            skjæringstidspunkt: fomTom.fom,
-            grunnlagForSykepengegrunnlagPerArbeidsgiver: {
-                ...ekstraArbeidsgivere
-            },
-            dokumenter: [],
-            inntekt: månedsinntekt,
-            sykepengegrunnlag: månedsinntekt * 12,
-            utbetalingId: undefined
-        }
-        vedtak.grunnlagForSykepengegrunnlagPerArbeidsgiver![orgnummer] = månedsinntekt * 12
 
         const utbetaling: UtbetalingUtbetalt = {
             event: 'utbetaling_utbetalt',
@@ -78,7 +69,26 @@ function SendSomNyttVedtak({
             type: utbetalingstype,
             utbetalingsdager: utbetalingsdager,
         }
-        vedtak.utbetalingId = utbetaling.utbetalingId
+
+        const vedtak: VedtakFattetForEksternDto = {
+            fødselsnummer: fodselsnummer!,
+            aktørId: fodselsnummer!,
+            organisasjonsnummer: orgnummer,
+            fom: fomTom.fom,
+            tom: fomTom.tom,
+            skjæringstidspunkt: fomTom.fom,
+            grunnlagForSykepengegrunnlagPerArbeidsgiver: {
+                ...ekstraArbeidsgivere
+            },
+            dokumenter: [],
+            inntekt: månedsinntekt,
+            sykepengegrunnlag: sykepengegrunnlag,
+            grunnlagForSykepengegrunnlag: grunnlagForSykepengegrunnag,
+            begrensning: begrensning,
+            utbetalingId: utbetaling.utbetalingId
+        }
+        vedtak.grunnlagForSykepengegrunnlagPerArbeidsgiver![orgnummer] = månedsinntekt * 12
+
         return {
             vedtak: vedtak,
             utbetaling: utbetaling

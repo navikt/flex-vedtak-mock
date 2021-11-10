@@ -1,22 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { GrunnlagForSykepengegrunnlagPerArbeidsgiver } from './types/VedtakV2'
+import { Begrensning, GrunnlagForSykepengegrunnlagPerArbeidsgiver } from './types/VedtakV2'
 
 interface Props {
     månedsinntekt: number,
     setMånedsinntekt: (b: number) => void,
+    sykepengegrunnlag: number,
+    setSykepengegrunnlag: (b: number) => void,
+    grunnlagForSykepengegrunnlag: number,
+    setGrunnlagForSykepengegrunnlag: (b: number) => void,
+    begrensning: Begrensning,
+    setBegrensning: (b: Begrensning) => void,
     orgnummer: string
     ekstraArbeidsgivere: GrunnlagForSykepengegrunnlagPerArbeidsgiver
-    setEkstraArbeidsgivere: (b: GrunnlagForSykepengegrunnlagPerArbeidsgiver) => void
+    setEkstraArbeidsgivere: (b: GrunnlagForSykepengegrunnlagPerArbeidsgiver) => void,
+    dagsats: number,
+    setDagsats: (b: number) => void
 }
 
+
+const G = 106399
 
 export const Inntekter = ({
     setMånedsinntekt,
     månedsinntekt,
     orgnummer,
     ekstraArbeidsgivere,
-    setEkstraArbeidsgivere
+    setEkstraArbeidsgivere,
+    dagsats,
+    setDagsats,
+    begrensning,
+    setBegrensning,
+    sykepengegrunnlag,
+    grunnlagForSykepengegrunnlag,
+    setSykepengegrunnlag,
+    setGrunnlagForSykepengegrunnlag,
 }: Props) => {
 
     const leggTilArbeidsgiver = () => {
@@ -40,6 +58,26 @@ export const Inntekter = ({
         setEkstraArbeidsgivere(ekstraArbeidsgivereKopi)
     }
 
+    useEffect(() => {
+        function add(accumulator: number, a: number) {
+            return accumulator + a
+        }
+
+        const grunnlagetForSykepengegrunnlaget = (månedsinntekt * 12) + Object.entries(ekstraArbeidsgivere).map((a) => a[1]).reduce(add, 0)
+        setGrunnlagForSykepengegrunnlag(grunnlagetForSykepengegrunnlaget)
+
+        let sykepengegrunnlag = 0
+        if (grunnlagetForSykepengegrunnlaget > 6 * G) {
+            sykepengegrunnlag = 6 * G
+            setBegrensning('ER_6G_BEGRENSET')
+        } else {
+            sykepengegrunnlag = grunnlagetForSykepengegrunnlaget
+            setBegrensning('ER_IKKE_6G_BEGRENSET')
+        }
+        setSykepengegrunnlag(sykepengegrunnlag)
+        setDagsats(Math.floor(sykepengegrunnlag / 260))
+    }, [ månedsinntekt, ekstraArbeidsgivere, dagsats, setDagsats, setSykepengegrunnlag, setGrunnlagForSykepengegrunnlag, setBegrensning ])
+
     return (
         <div style={{ border: '1px solid', padding: '1em' }}>
             <label>Månedsinntekt hos {orgnummer} :
@@ -47,7 +85,41 @@ export const Inntekter = ({
                     setMånedsinntekt(Number(e.target.value))
                 }} /></label>
             <br />
-            <label>Årsinntekt hos {orgnummer}: {månedsinntekt * 12}</label>
+            <table style={{ border: '1px solid', marginTop: '1em' }}>
+                <tr>
+                    <td>Årsinntekt hos {orgnummer}</td>
+                    <td>{månedsinntekt * 12}</td>
+                </tr>
+                <tr>
+                    <td>Månedsinntekt hos {orgnummer}</td>
+                    <td>{månedsinntekt}</td>
+                </tr>
+                <tr>
+                    <td>1G</td>
+                    <td>{G}</td>
+                </tr>
+                <tr>
+                    <td>6G</td>
+                    <td>{6 * G}</td>
+                </tr>
+                <tr>
+                    <td>Dagsats</td>
+                    <td>{dagsats}</td>
+                </tr>
+                <tr>
+                    <td>Sykepengegrunnlag</td>
+                    <td>{sykepengegrunnlag}</td>
+                </tr>
+                <tr>
+                    <td>Grunnlag for sykepengegrunnlag:</td>
+                    <td>{grunnlagForSykepengegrunnlag}</td>
+                </tr>
+                <tr>
+                    <td>Begrensning:</td>
+                    <td>{begrensning}</td>
+                </tr>
+            </table>
+
             <h3>Andre arbeidsgivere</h3>
             {
                 Object.entries(ekstraArbeidsgivere).map((e, idx) => {
