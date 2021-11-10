@@ -18,6 +18,9 @@ export default ({ utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, fomTom
 
 
     useEffect(() => {
+        if (!sprefUtbetaling) {
+            return
+        }
         const arbeidsgiverOppdrag = sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling!)
         setUtbetalingsdager(skapUtbetalingsdager(arbeidsgiverOppdrag))
 
@@ -77,10 +80,14 @@ export default ({ utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, fomTom
                                 <option value="Arbeidsdag">Arbeidsdag</option>
                                 <option value="Fridag">Fridag</option>
                                 <option value="ForeldetDag">ForeldetDag</option>
-                                <option value="AvvistDag" id="SykepengedagerOppbrukt">Avvist - SykepengedagerOppbrukt</option>
-                                <option value="AvvistDag" id="SykepengedagerOppbruktOver67">Avvist - SykepengedagerOppbrukt - Over 67</option>
+                                <option value="AvvistDag" id="SykepengedagerOppbrukt">Avvist - SykepengedagerOppbrukt
+                                </option>
+                                <option value="AvvistDag" id="SykepengedagerOppbruktOver67">Avvist -
+                                    SykepengedagerOppbrukt - Over 67
+                                </option>
                                 <option value="AvvistDag" id="MinimumInntekt">Avvist - MinimumInntekt</option>
-                                <option value="AvvistDag" id="MinimumInntektOver67">Avvist - MinimumInntekt - Over 67</option>
+                                <option value="AvvistDag" id="MinimumInntektOver67">Avvist - MinimumInntekt - Over 67
+                                </option>
                                 <option value="AvvistDag" id="EgenmeldingUtenforArbeidsgiverperiode">Avvist -
                                     EgenmeldingUtenforArbeidsgiverperiode
                                 </option>

@@ -7,6 +7,7 @@ import Datoer from './Datoer'
 import EksisterendeVedtak from './EksisterendeVedtak'
 import Fodselsnummer from './Fodselsnummer'
 import Månedsinntekt from './Månedsinntekt'
+import { Orgnummer } from './Orgnummer'
 import SendSomNyttVedtak from './SendSomNyttVedtak'
 import SlettVedtak from './SlettVedtak'
 import SprefUtbetaling from './SprefUtbetaling'
@@ -24,6 +25,7 @@ function VedtakGenerator() {
     const [ automatiskBehandling, setAutomatiskBehandling ] = useState<boolean>(true)
     const [ månedsinntekt, setMånedsinntekt ] = useState<number>(37500)
     const [ dagsats, setDagsats ] = useState<number>(1404)
+    const [ orgnummer, setOrgnummer ] = useState<string>('967170232')
     const [ sprefvariant, setSprefvariant ] = useState<SprefVariant>('100%')
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
@@ -52,6 +54,10 @@ function VedtakGenerator() {
                 fomTom={fomTom}
                 setFomTom={setFomTom}
             />
+            <Orgnummer
+                orgnummer={orgnummer}
+                setOrgnummer={setOrgnummer}
+            />
             <Dagsats
                 dagsats={dagsats}
                 setDagsats={setDagsats} />
@@ -66,6 +72,7 @@ function VedtakGenerator() {
                 sprefUtbetaling={sprefUtbetaling}
                 setForbrukteSykedager={setForbrukteSykedager}
                 dagsats={dagsats}
+                orgnr={orgnummer}
                 forbrukteSykedager={forbrukteSykedager}
                 fomTom={fomTom}
                 setSprefvariant={setSprefvariant}
@@ -94,6 +101,7 @@ function VedtakGenerator() {
                 gjenstaendeSykedager={gjenstaendeSykedager}
                 utbetalingstype={utbetalingstype}
                 fomTom={fomTom}
+                orgnummer={orgnummer}
                 sprefUtbetaling={sprefUtbetaling}
                 utbetalingsdager={utbetalingsdager}
             />

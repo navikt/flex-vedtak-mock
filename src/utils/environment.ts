@@ -10,8 +10,8 @@ class Environment {
         return this.env.ENVIRONMENT === 'q1'
     }
 
-    get sykmeldingerBackendProxyRoot() {
-        return this.env.SYKMELDINGER_BACKEND_PROXY_ROOT
+    get isMockBackend() {
+        return this.env.MOCK_BACKEND === 'true'
     }
 
     get flexInternGatewayRoot() {

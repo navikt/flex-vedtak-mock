@@ -9,6 +9,7 @@ import { Utbetaling } from './Utbetaling'
 
 interface Props {
     dagsats: number,
+    orgnr: string,
     fomTom: FomTom,
     sprefvariant: SprefVariant
     setSprefvariant: (s: SprefVariant) => void
@@ -22,6 +23,7 @@ function SprefUtbetaling({
     dagsats,
     fomTom,
     sprefvariant,
+    orgnr,
     setSprefvariant,
     forbrukteSykedager,
     setForbrukteSykedager,
@@ -35,13 +37,13 @@ function SprefUtbetaling({
     const langPeriode = 10
 
     useEffect(() => {
-        const sprefUtbetaling = skapSprefUtbetaling(dagsats, fomTom, sprefvariant)
+        const sprefUtbetaling = skapSprefUtbetaling(dagsats, fomTom, sprefvariant, orgnr)
         const sykedagerFraUtbetalingslinjer = totalSykedagerFraUtbetalingslinjer(sprefUtbetaling.utbetalingslinjer)
         if (forbrukteSykedager < sykedagerFraUtbetalingslinjer) {
             setForbrukteSykedager(sykedagerFraUtbetalingslinjer)
         }
         setSprefUtbetaling(sprefUtbetaling)
-    }, [ dagsats, fomTom, setSprefUtbetaling, sprefvariant, forbrukteSykedager, setForbrukteSykedager ])
+    }, [ dagsats, fomTom, setSprefUtbetaling, sprefvariant, forbrukteSykedager, setForbrukteSykedager, orgnr ])
 
     useEffect(() => {
         setDagerInkludertIFomTom(finnDagerInkludertIFomTom(fomTom))
@@ -174,11 +176,11 @@ function totalSykedagerFraUtbetalingslinjer(utbetalingslinjer: UtbetalingslinjeD
     }, 0)
 }
 
-export function skapSprefUtbetaling(dagsats: number, fomTom: FomTom, sprefVariant: SprefVariant) {
+export function skapSprefUtbetaling(dagsats: number, fomTom: FomTom, sprefVariant: SprefVariant, orgnr: string) {
     const utbetalingslinjer = genererUtbetalingslinjeDtoListe(dagsats, fomTom, sprefVariant)
     return {
         _id: v4(),
-        mottaker:  'org-nr',
+        mottaker:  orgnr,
         fagområde: 'SPREF',
         totalbeløp: totalbeløpFraUtbetalingslinjer(utbetalingslinjer),
         utbetalingslinjer: utbetalingslinjer
