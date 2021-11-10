@@ -1,24 +1,14 @@
 import { LocalDate } from '@js-joda/core'
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { Soknad } from './types/Soknad'
 import { FomTom } from './types/VedtakV1'
 
 interface Props {
     fomTom: FomTom,
-    valgteSoknader: Soknad[],
     setFomTom: (b: FomTom) => void
 }
 
-function Datoer({ setFomTom, fomTom, valgteSoknader }: Props) {
-
-    useEffect(() => {
-        if (valgteSoknader.length > 0) {
-            const tidligsteFom = valgteSoknader.sort((a, b) => LocalDate.parse(a.fom).toEpochDay() - LocalDate.parse(b.fom).toEpochDay())[0].fom
-            const senesteTom = valgteSoknader.sort((a, b) => LocalDate.parse(b.tom).toEpochDay() - LocalDate.parse(a.tom).toEpochDay())[0].tom
-            setFomTom({ fom: LocalDate.parse(tidligsteFom), tom: LocalDate.parse(senesteTom) })
-        }
-    }, [ valgteSoknader, setFomTom ])
+function Datoer({ setFomTom, fomTom }: Props) {
 
     return (
         <div style={{ border: '1px solid', padding: '1em' }}>

@@ -6,23 +6,21 @@ import useOpprettVedtak from './queries/useOpprettVedtak'
 import {
     sprefUtbetalingTilArbeidsgiverOppdrag
 } from './SprefUtbetaling'
-import { Soknad } from './types/Soknad'
-import { Sykmelding } from './types/Sykmelding'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
 import {
     UtbetalingdagDto,
     UtbetalingUtbetalt,
     VedtakFattetForEksternDto
 } from './types/VedtakV2'
+import env from './utils/environment'
 
 interface Props {
     automatiskBehandling: boolean
     månedsinntekt: number,
-    valgteSykmeldinger: Sykmelding[],
-    valgteSoknader: Soknad[],
     forbrukteSykedager: number,
     gjenstaendeSykedager: number,
     utbetalingstype: string,
+    orgnummer: string,
     fomTom: FomTom,
     sprefUtbetaling: UtbetalingDto | undefined,
     utbetalingsdager: UtbetalingdagDto[]
@@ -31,11 +29,10 @@ interface Props {
 function SendSomNyttVedtak({
     månedsinntekt,
     automatiskBehandling,
-    valgteSykmeldinger,
-    valgteSoknader,
     forbrukteSykedager,
     gjenstaendeSykedager,
     utbetalingstype,
+    orgnummer,
     fomTom,
     sprefUtbetaling,
     utbetalingsdager
@@ -48,7 +45,7 @@ function SendSomNyttVedtak({
         const vedtak: VedtakFattetForEksternDto = {
             fødselsnummer: fodselsnummer!,
             aktørId: fodselsnummer!,
-            organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
+            organisasjonsnummer: orgnummer,
             fom: fomTom.fom,
             tom: fomTom.tom,
             skjæringstidspunkt: fomTom.fom,
@@ -58,20 +55,12 @@ function SendSomNyttVedtak({
             utbetalingId: undefined
         }
 
-        valgteSykmeldinger.forEach((s) => {
-            vedtak.dokumenter.push({ dokumentId: s.id, type: 'Sykmelding' })
-        })
-
-        valgteSoknader.forEach((s) => {
-            vedtak.dokumenter.push({ dokumentId: s.id, type: 'Søknad' })
-        })
-
         const utbetaling: UtbetalingUtbetalt = {
             event: 'utbetaling_utbetalt',
             utbetalingId: uuid(),
             fødselsnummer: fodselsnummer!,
             aktørId: fodselsnummer!,
-            organisasjonsnummer: valgteSoknader[0]?.arbeidsgiver?.orgnummer || 'org-nr',
+            organisasjonsnummer: orgnummer,
             fom: fomTom.fom,
             tom: fomTom.tom,
             antallVedtak: 1,
@@ -98,6 +87,10 @@ function SendSomNyttVedtak({
             <button disabled={isLoading} style={{ fontSize: 40 }} onClick={async() => {
                 const vedtak = genererVedtakV2()
 
+                if (env.isMockBackend) {
+                    // eslint-disable-next-line no-console
+                    console.log('Vedtak', vedtak)
+                }
                 opprettVedtak(JSON.stringify({
                     vedtak: JSON.stringify(vedtak.vedtak),
                     utbetaling: JSON.stringify(vedtak.utbetaling)
