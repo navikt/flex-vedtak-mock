@@ -14,6 +14,8 @@ export default ({ setMånedsinntekt, månedsinntekt }: Props) => {
                 <input type={'number'} min={0} step={1} max={200000} value={månedsinntekt} onChange={(e) => {
                     setMånedsinntekt(Number(e.target.value))
                 }} /></label>
+            <br />
+            <label>Årsinntekt: {månedsinntekt * 12}</label>
         </div>
     )
 }
