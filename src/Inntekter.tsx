@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Begrensning, GrunnlagForSykepengegrunnlagPerArbeidsgiver } from './types/VedtakV2'
+import { formaterValuta } from './utils/valutaformat'
 
 interface Props {
     månedsinntekt: number,
@@ -78,6 +79,17 @@ export const Inntekter = ({
         setDagsats(Math.floor(sykepengegrunnlag / 260))
     }, [ månedsinntekt, ekstraArbeidsgivere, dagsats, setDagsats, setSykepengegrunnlag, setGrunnlagForSykepengegrunnlag, setBegrensning ])
 
+    const tabellInnhold = [
+        [ 'Årsinntekt hos ' + orgnummer, formaterValuta(månedsinntekt * 12) ],
+        [ 'Månedsinntekt hos ' + orgnummer, formaterValuta(månedsinntekt) ],
+        [ '1G', formaterValuta(G) ],
+        [ '6G', formaterValuta(6 * G) ],
+        [ 'Dagsats', formaterValuta(dagsats) ],
+        [ 'Sykepengegrunnlag', formaterValuta(sykepengegrunnlag) ],
+        [ 'Grunnlag for sykepengegrunnlag:', formaterValuta(grunnlagForSykepengegrunnlag) ],
+        [ 'Begrensning', begrensning ],
+    ]
+
     return (
         <div style={{ border: '1px solid', padding: '1em' }}>
             <label>Månedsinntekt hos {orgnummer} :
@@ -86,38 +98,16 @@ export const Inntekter = ({
                 }} /></label>
             <br />
             <table style={{ border: '1px solid', marginTop: '1em' }}>
-                <tr>
-                    <td>Årsinntekt hos {orgnummer}</td>
-                    <td>{månedsinntekt * 12}</td>
-                </tr>
-                <tr>
-                    <td>Månedsinntekt hos {orgnummer}</td>
-                    <td>{månedsinntekt}</td>
-                </tr>
-                <tr>
-                    <td>1G</td>
-                    <td>{G}</td>
-                </tr>
-                <tr>
-                    <td>6G</td>
-                    <td>{6 * G}</td>
-                </tr>
-                <tr>
-                    <td>Dagsats</td>
-                    <td>{dagsats}</td>
-                </tr>
-                <tr>
-                    <td>Sykepengegrunnlag</td>
-                    <td>{sykepengegrunnlag}</td>
-                </tr>
-                <tr>
-                    <td>Grunnlag for sykepengegrunnlag:</td>
-                    <td>{grunnlagForSykepengegrunnlag}</td>
-                </tr>
-                <tr>
-                    <td>Begrensning:</td>
-                    <td>{begrensning}</td>
-                </tr>
+                {
+                    tabellInnhold.map((e, idx) => {
+                        return (
+                            <tr key={idx}>
+                                <td><strong>{e[0]}</strong></td>
+                                <td style={{ textAlign: 'right' }}>{e[1]}</td>
+                            </tr>
+                        )
+                    })
+                }
             </table>
 
             <h3>Andre arbeidsgivere</h3>
