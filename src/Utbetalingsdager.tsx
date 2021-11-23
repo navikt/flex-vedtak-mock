@@ -79,6 +79,8 @@ export default ({ utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, fomTom
                                 <option value="ArbeidsgiverperiodeDag">ArbeidsgiverperiodeDag</option>
                                 <option value="Arbeidsdag">Arbeidsdag</option>
                                 <option value="Fridag">Fridag</option>
+                                <option value="Feriedag">Feriedag</option>
+                                <option value="Permisjonsdag">Permisjonsdag</option>
                                 <option value="ForeldetDag">ForeldetDag</option>
                                 <option value="AvvistDag" id="SykepengedagerOppbrukt">Avvist - SykepengedagerOppbrukt
                                 </option>
