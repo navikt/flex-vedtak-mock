@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 
 
 interface Props {
     automatiskBehandling: boolean,
-    setAutomatiskBehandling: (b: boolean) => void
+    setAutomatiskBehandling: Dispatch<React.SetStateAction<boolean>>
 }
 
 export default ({

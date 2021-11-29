@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { Dispatch, useEffect } from 'react'
 
 import { Begrensning, GrunnlagForSykepengegrunnlagPerArbeidsgiver } from './types/VedtakV2'
 import { formaterValuta } from './utils/valutaformat'
 
 interface Props {
     månedsinntekt: number,
-    setMånedsinntekt: (b: number) => void,
+    setMånedsinntekt: Dispatch<React.SetStateAction<number>>,
     sykepengegrunnlag: number,
-    setSykepengegrunnlag: (b: number) => void,
+    setSykepengegrunnlag: Dispatch<React.SetStateAction<number>>,
     grunnlagForSykepengegrunnlag: number,
-    setGrunnlagForSykepengegrunnlag: (b: number) => void,
+    setGrunnlagForSykepengegrunnlag: Dispatch<React.SetStateAction<number>>,
     begrensning: Begrensning,
-    setBegrensning: (b: Begrensning) => void,
+    setBegrensning: Dispatch<React.SetStateAction<Begrensning>>,
     orgnummer: string
     ekstraArbeidsgivere: GrunnlagForSykepengegrunnlagPerArbeidsgiver
-    setEkstraArbeidsgivere: (b: GrunnlagForSykepengegrunnlagPerArbeidsgiver) => void,
+    setEkstraArbeidsgivere: Dispatch<React.SetStateAction<GrunnlagForSykepengegrunnlagPerArbeidsgiver>>,
     dagsats: number,
-    setDagsats: (b: number) => void
+    setDagsats: Dispatch<React.SetStateAction<number>>
 }
 
 
@@ -67,7 +67,7 @@ export const Inntekter = ({
         const grunnlagetForSykepengegrunnlaget = (månedsinntekt * 12) + Object.entries(ekstraArbeidsgivere).map((a) => a[1]).reduce(add, 0)
         setGrunnlagForSykepengegrunnlag(grunnlagetForSykepengegrunnlaget)
 
-        let sykepengegrunnlag = 0
+        let sykepengegrunnlag
         if (grunnlagetForSykepengegrunnlaget > 6 * G) {
             sykepengegrunnlag = 6 * G
             setBegrensning('ER_6G_BEGRENSET')

@@ -1,11 +1,11 @@
 import { LocalDate } from '@js-joda/core'
-import React from 'react'
+import React, { Dispatch } from 'react'
 
 import { FomTom } from './types/VedtakV1'
 
 interface Props {
     fomTom: FomTom,
-    setFomTom: (b: FomTom) => void
+    setFomTom: Dispatch<React.SetStateAction<FomTom>>
 }
 
 function Datoer({ setFomTom, fomTom }: Props) {

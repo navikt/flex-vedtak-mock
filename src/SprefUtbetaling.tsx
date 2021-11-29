@@ -1,5 +1,5 @@
 import { DayOfWeek, LocalDate } from '@js-joda/core'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, Dispatch, useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 
 import { SprefVariant } from './types/SprefVariant'
@@ -12,9 +12,9 @@ interface Props {
     orgnr: string,
     fomTom: FomTom,
     sprefvariant: SprefVariant
-    setSprefvariant: (s: SprefVariant) => void
-    setForbrukteSykedager: (s: number) => void
-    setSprefUtbetaling: (s: UtbetalingDto) => void
+    setSprefvariant: Dispatch<React.SetStateAction<SprefVariant>>,
+    setForbrukteSykedager: Dispatch<React.SetStateAction<number>>,
+    setSprefUtbetaling: Dispatch<React.SetStateAction<UtbetalingDto | undefined>>,
     forbrukteSykedager: number,
     sprefUtbetaling: UtbetalingDto | undefined,
 }
