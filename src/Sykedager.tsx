@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { Dispatch, useEffect } from 'react'
 
 interface Props {
     forbrukteSykedager: number,
-    setForbrukteSykedager: (b: number) => void
+    setForbrukteSykedager: Dispatch<React.SetStateAction<number>>,
     gjenstaendeSykedager: number,
-    setGjenstaendeSykedager: (b: number) => void
+    setGjenstaendeSykedager: Dispatch<React.SetStateAction<number>>
 }
 
 function Sykedager({ setForbrukteSykedager, setGjenstaendeSykedager, forbrukteSykedager, gjenstaendeSykedager }: Props) {

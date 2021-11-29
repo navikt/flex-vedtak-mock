@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 
 interface Props {
     orgnummer: string,
-    setOrgnummer: (b: string) => void
+    setOrgnummer: Dispatch<React.SetStateAction<string>>
 }
 
 export const Orgnummer = ({ setOrgnummer, orgnummer }: Props) => {

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 export async function authenticatedFetch<T>(url: string, cb: (data: unknown) => Promise<T>, method = 'GET', text = false, headers?: any, body?: string): Promise<T> {
     const res = await fetch(url, {
         method: method,

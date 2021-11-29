@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 
 interface Props {
     utbetalingstype: string,
-    setUtbetalingstype: (b: string) => void
+    setUtbetalingstype: Dispatch<React.SetStateAction<string>>
 }
 
 export default ({ utbetalingstype, setUtbetalingstype } : Props) => {

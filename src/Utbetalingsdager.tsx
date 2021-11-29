@@ -1,5 +1,5 @@
 import { DayOfWeek } from '@js-joda/core'
-import React, { useEffect } from 'react'
+import React, { Dispatch, useEffect } from 'react'
 
 import { sprefUtbetalingTilArbeidsgiverOppdrag } from './SprefUtbetaling'
 import { FomTom, UtbetalingDto } from './types/VedtakV1'
@@ -8,7 +8,7 @@ import { OppdragDto, UtbetalingdagDto } from './types/VedtakV2'
 
 interface Props {
     utbetalingsdager: UtbetalingdagDto[],
-    setUtbetalingsdager: (b: UtbetalingdagDto[]) => void
+    setUtbetalingsdager: Dispatch<React.SetStateAction<UtbetalingdagDto[]>>,
     sprefUtbetaling: UtbetalingDto | undefined,
     fomTom: FomTom,
 }
