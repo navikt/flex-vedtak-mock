@@ -42,6 +42,7 @@ jobs:
     name: Deploy to dev-gcp
     needs: build-and-publish
     runs-on: ubuntu-latest
+    concurrency: deploy-to-dev-gcp
     steps:
       - uses: actions/checkout@v1
       - uses: actions/download-artifact@v1
