@@ -1,3 +1,4 @@
+import { LocalDate } from '@js-joda/core'
 import React from 'react'
 import { v4 as uuid } from 'uuid'
 
@@ -30,6 +31,7 @@ interface Props {
     sykepengegrunnlag: number,
     grunnlagForSykepengegrunnag: number,
     begrensning: Begrensning,
+    foreløpigBeregnetSluttPåSykepenger: LocalDate,
 }
 
 function SendSomNyttVedtak({
@@ -46,6 +48,7 @@ function SendSomNyttVedtak({
     sykepengegrunnlag,
     grunnlagForSykepengegrunnag,
     begrensning,
+    foreløpigBeregnetSluttPåSykepenger,
 }: Props) {
 
     const { data: fodselsnummer } = useFodselsnummer()
@@ -62,6 +65,7 @@ function SendSomNyttVedtak({
             fom: fomTom.fom,
             tom: fomTom.tom,
             antallVedtak: 1,
+            foreløpigBeregnetSluttPåSykepenger: foreløpigBeregnetSluttPåSykepenger,
             forbrukteSykedager: forbrukteSykedager,
             gjenståendeSykedager: gjenstaendeSykedager,
             automatiskBehandling: automatiskBehandling,

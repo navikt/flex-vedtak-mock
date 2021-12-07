@@ -33,9 +33,11 @@ export interface UtbetalingUtbetalt {
     tom: LocalDate;
     forbrukteSykedager: number;
     antallVedtak: number;
+    foreløpigBeregnetSluttPåSykepenger: LocalDate;
     gjenståendeSykedager: number;
     automatiskBehandling: boolean;
-    arbeidsgiverOppdrag: OppdragDto;
+    arbeidsgiverOppdrag?: OppdragDto;
+    personOppdrag?: OppdragDto;
     type: string; // UTBETALING, ETTERUTBETALING, ANNULLERING, REVURDERING
     utbetalingsdager: UtbetalingdagDto[];
 }

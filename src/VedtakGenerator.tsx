@@ -32,6 +32,7 @@ function VedtakGenerator() {
     const [ sprefvariant, setSprefvariant ] = useState<SprefVariant>('100%')
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
+    const [ foreløpigBeregnetSluttPåSykepenger, setForeløpigBeregnetSluttPåSykepenger ] = useState<LocalDate>(LocalDate.now())
     const [ sprefUtbetaling, setSprefUtbetaling ] = useState<UtbetalingDto>()
     const [ utbetalingsdager, setUtbetalingsdager ] = useState<UtbetalingdagDto[]>([])
     const [ utbetalingstype, setUtbetalingstype ] = useState<string>('UTBETALING')
@@ -105,6 +106,9 @@ function VedtakGenerator() {
                 gjenstaendeSykedager={gjenstaendeSykedager}
                 setForbrukteSykedager={setForbrukteSykedager}
                 forbrukteSykedager={forbrukteSykedager}
+                setForeløpigBeregnetSluttPåSykepenger={setForeløpigBeregnetSluttPåSykepenger}
+                foreløpigBeregnetSluttPåSykepenger={foreløpigBeregnetSluttPåSykepenger}
+                fomTom={fomTom}
             />
             <SendSomNyttVedtak
                 automatiskBehandling={automatiskBehandling}
@@ -120,7 +124,7 @@ function VedtakGenerator() {
                 sykepengegrunnlag={sykepengegrunnlag}
                 grunnlagForSykepengegrunnag={grunnlagForSykepengegrunnlag}
                 begrensning={begrensning}
-
+                foreløpigBeregnetSluttPåSykepenger={foreløpigBeregnetSluttPåSykepenger}
             />
             <SlettVedtak />
             <EksisterendeVedtak />
