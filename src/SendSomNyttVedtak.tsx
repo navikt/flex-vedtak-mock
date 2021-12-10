@@ -4,13 +4,10 @@ import { v4 as uuid } from 'uuid'
 
 import useFodselsnummer from './queries/useFodselsnummer'
 import useOpprettVedtak from './queries/useOpprettVedtak'
-import {
-    sprefUtbetalingTilArbeidsgiverOppdrag
-} from './SprefUtbetaling'
-import { FomTom, UtbetalingDto } from './types/VedtakV1'
+import { FomTom } from './types/VedtakV1'
 import {
     Begrensning,
-    GrunnlagForSykepengegrunnlagPerArbeidsgiver,
+    GrunnlagForSykepengegrunnlagPerArbeidsgiver, OppdragDto,
     UtbetalingdagDto,
     UtbetalingUtbetalt,
     VedtakFattetForEksternDto
@@ -26,7 +23,7 @@ interface Props {
     orgnummer: string,
     fomTom: FomTom,
     ekstraArbeidsgivere: GrunnlagForSykepengegrunnlagPerArbeidsgiver
-    sprefUtbetaling: UtbetalingDto | undefined,
+    oppdrag: OppdragDto[],
     utbetalingsdager: UtbetalingdagDto[],
     sykepengegrunnlag: number,
     grunnlagForSykepengegrunnag: number,
@@ -43,7 +40,7 @@ function SendSomNyttVedtak({
     ekstraArbeidsgivere,
     orgnummer,
     fomTom,
-    sprefUtbetaling,
+    oppdrag,
     utbetalingsdager,
     sykepengegrunnlag,
     grunnlagForSykepengegrunnag,
@@ -56,7 +53,7 @@ function SendSomNyttVedtak({
 
     const genererVedtakV2 = () => {
 
-        const utbetaling: UtbetalingUtbetalt = {
+        const utbetalingUtbetalt: UtbetalingUtbetalt = {
             event: 'utbetaling_utbetalt',
             utbetalingId: uuid(),
             fødselsnummer: fodselsnummer!,
@@ -69,7 +66,8 @@ function SendSomNyttVedtak({
             forbrukteSykedager: forbrukteSykedager,
             gjenståendeSykedager: gjenstaendeSykedager,
             automatiskBehandling: automatiskBehandling,
-            arbeidsgiverOppdrag: sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling!),
+            arbeidsgiverOppdrag: oppdrag.find((o) => o.fagområde === 'SPREF'),
+            personOppdrag: oppdrag.find((o) => o.fagområde === 'SP'),
             type: utbetalingstype,
             utbetalingsdager: utbetalingsdager,
         }
@@ -89,13 +87,13 @@ function SendSomNyttVedtak({
             sykepengegrunnlag: sykepengegrunnlag,
             grunnlagForSykepengegrunnlag: grunnlagForSykepengegrunnag,
             begrensning: begrensning,
-            utbetalingId: utbetaling.utbetalingId
+            utbetalingId: utbetalingUtbetalt.utbetalingId
         }
         vedtak.grunnlagForSykepengegrunnlagPerArbeidsgiver![orgnummer] = månedsinntekt * 12
 
         return {
             vedtak: vedtak,
-            utbetaling: utbetaling
+            utbetaling: utbetalingUtbetalt
         } as any
     }
 

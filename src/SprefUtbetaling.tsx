@@ -1,10 +1,11 @@
 import { DayOfWeek, LocalDate } from '@js-joda/core'
-import React, { ChangeEvent, Dispatch, useEffect, useState } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 
+import useFodselsnummer from './queries/useFodselsnummer'
 import { SprefVariant } from './types/SprefVariant'
-import { FomTom, UtbetalingDto, UtbetalingslinjeDto } from './types/VedtakV1'
-import { OppdragDto } from './types/VedtakV2'
+import { FomTom } from './types/VedtakV1'
+import { OppdragDto, UtbetalingslinjeDto } from './types/VedtakV2'
 import { Utbetaling } from './Utbetaling'
 
 interface Props {
@@ -14,9 +15,9 @@ interface Props {
     sprefvariant: SprefVariant
     setSprefvariant: Dispatch<React.SetStateAction<SprefVariant>>,
     setForbrukteSykedager: Dispatch<React.SetStateAction<number>>,
-    setSprefUtbetaling: Dispatch<React.SetStateAction<UtbetalingDto | undefined>>,
+    oppdrag: OppdragDto[],
+    setOppdrag: Dispatch<React.SetStateAction<OppdragDto[]>>,
     forbrukteSykedager: number,
-    sprefUtbetaling: UtbetalingDto | undefined,
 }
 
 function SprefUtbetaling({
@@ -27,42 +28,113 @@ function SprefUtbetaling({
     setSprefvariant,
     forbrukteSykedager,
     setForbrukteSykedager,
-    sprefUtbetaling,
-    setSprefUtbetaling
+    oppdrag,
+    setOppdrag,
 }: Props) {
 
     const [ dagerInkludertIFomTom, setDagerInkludertIFomTom ] = useState<number>(finnDagerInkludertIFomTom(fomTom))
+    const [ utbetaling, setUtbetaling ] = useState<UtbetalingslinjeDto[]>([])
+    const [ utbetalingFordeling, setUtbetalingFordeling ] = useState<string[]>([ 'SPREF' ])
+    const { data: fnr } = useFodselsnummer()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const varianterSomTrengerLangPeriode: SprefVariant[] = [ 'opphold-midt-i', '80% og 100%' ]
     const langPeriode = 10
 
     useEffect(() => {
-        const sprefUtbetaling = skapSprefUtbetaling(dagsats, fomTom, sprefvariant, orgnr)
-        const sykedagerFraUtbetalingslinjer = totalSykedagerFraUtbetalingslinjer(sprefUtbetaling.utbetalingslinjer)
+        setUtbetaling(genererUtbetalingslinjeDtoListe(dagsats, fomTom, sprefvariant))
+    }, [ dagsats, fomTom, sprefvariant ])
+
+    useEffect(() => {
+        const sprefUtbetaling = skapSprefOppdrag(utbetaling, orgnr)
+        const spUtbetaling = skapSpUtbetaling(utbetaling, fnr!)
+
+        const sykedagerFraUtbetalingslinjer = totalSykedagerFraUtbetalingslinjer(utbetaling)
+
         if (forbrukteSykedager < sykedagerFraUtbetalingslinjer) {
             setForbrukteSykedager(sykedagerFraUtbetalingslinjer)
         }
-        setSprefUtbetaling(sprefUtbetaling)
-    }, [ dagsats, fomTom, setSprefUtbetaling, sprefvariant, forbrukteSykedager, setForbrukteSykedager, orgnr ])
+
+        const nyttOppdrag = []
+        if (sprefUtbetaling) nyttOppdrag.push(sprefUtbetaling)
+        if (spUtbetaling) nyttOppdrag.push(spUtbetaling)
+        setOppdrag(nyttOppdrag)
+        // eslint-disable-next-line
+    }, [ utbetalingFordeling ])
 
     useEffect(() => {
         setDagerInkludertIFomTom(finnDagerInkludertIFomTom(fomTom))
     }, [ fomTom, setDagerInkludertIFomTom ])
 
-    const handleOptionChange = (changeEvent: ChangeEvent<HTMLInputElement>) => {
-        setSprefvariant(changeEvent.target.value as SprefVariant)
+    function skapSpUtbetaling(utbetalingslinjer: UtbetalingslinjeDto[], fnr: string): OppdragDto | undefined {
+        const linjer = utbetalingslinjer.filter((linje, idx) => utbetalingFordeling[idx] === 'SP')
+
+        if (linjer.length === 0) return undefined
+
+        return {
+            mottaker: fnr || 'byttes',
+            fagområde: 'SP',
+            fagsystemId: v4(),
+            nettoBeløp: totalbeløpFraUtbetalingslinjer(linjer),
+            utbetalingslinjer: linjer
+        }
+    }
+
+    function skapSprefOppdrag(utbetalingslinjer: UtbetalingslinjeDto[], orgnr: string): OppdragDto | undefined {
+        const linjer = utbetalingslinjer.filter((linje, idx) => utbetalingFordeling[idx] === 'SPREF')
+
+        if (linjer.length === 0) return undefined
+
+        return {
+            mottaker:  orgnr,
+            fagområde: 'SPREF',
+            fagsystemId: v4(),
+            nettoBeløp: totalbeløpFraUtbetalingslinjer(linjer),
+            utbetalingslinjer: linjer,
+        }
+    }
+
+    function genererUtbetalingslinjeDtoListe(dagsats: number, fomTom: FomTom, sprefVariant: SprefVariant): UtbetalingslinjeDto[] {
+        const dagerInkludertIFomTom = finnDagerInkludertIFomTom(fomTom)
+        switch (sprefVariant) {
+            case '100%':
+            case '80%': {
+                let grad = 100
+                if (sprefVariant === '80%') {
+                    grad = 80
+                }
+                setUtbetalingFordeling([ 'SP' ])
+                return [ genererUtbetalingslinjeDto(dagsats, fomTom.fom, fomTom.tom, grad) ]
+            }
+            case '80% og 100%': {
+                const førsteTom = fomTom.fom.plusDays(Math.floor(dagerInkludertIFomTom / 2))
+                const nesteFom = førsteTom.plusDays(1)
+                setUtbetalingFordeling([ 'SPREF', 'SP' ])
+                return [
+                    genererUtbetalingslinjeDto(dagsats, fomTom.fom, førsteTom, 80),
+                    genererUtbetalingslinjeDto(dagsats, nesteFom, fomTom.tom, 100)
+                ]
+            }
+            case 'opphold-midt-i': {
+                const tredjedel = Math.floor(dagerInkludertIFomTom / 3)
+                const førsteTom = fomTom.fom.plusDays(tredjedel)
+                const nesteFom = førsteTom.plusDays(tredjedel)
+                setUtbetalingFordeling([ 'SPREF', 'SP' ])
+                return [
+                    genererUtbetalingslinjeDto(dagsats, fomTom.fom, førsteTom, 100),
+                    genererUtbetalingslinjeDto(dagsats, nesteFom, fomTom.tom, 100)
+                ]
+            }
+
+        }
+        window.alert('Ukjent spref variant!!')
+        throw Error('Ukjent spref variant')
     }
 
     interface RadiovalgProps {
         navn: string;
         sprefVariant: SprefVariant;
     }
-
-    useEffect(() => {
-        if (dagerInkludertIFomTom < langPeriode && varianterSomTrengerLangPeriode.includes(sprefvariant)) {
-            setSprefvariant('100%')
-        }
-    }, [ dagerInkludertIFomTom, fomTom, setSprefvariant, sprefvariant, varianterSomTrengerLangPeriode ])
 
     const RadioValg = ({ navn, sprefVariant }: RadiovalgProps) => {
         if (varianterSomTrengerLangPeriode.includes(sprefVariant) && dagerInkludertIFomTom < langPeriode) {
@@ -72,7 +144,7 @@ function SprefUtbetaling({
             <label>
                 <input type="radio" value={sprefVariant}
                     checked={sprefvariant === sprefVariant}
-                    onChange={handleOptionChange} />
+                    onChange={(e) => setSprefvariant(e.target.value as SprefVariant)} />
                 {navn}
             </label>
         </div>)
@@ -82,14 +154,23 @@ function SprefUtbetaling({
         <div style={{ border: '1px solid', padding: '1em' }}>
 
             <h2 style={{ display: 'inline' }}>Utbetaling til arbeidsgiver</h2>
-            <form>
+            <form style={{ paddingTop: '1em' }}>
                 <RadioValg navn={'100% uten opphold'} sprefVariant={'100%'} />
-                <RadioValg navn={'Opphold midt i 100%'} sprefVariant={'opphold-midt-i'} />
                 <RadioValg navn={'80% uten opphold'} sprefVariant={'80%'} />
+                <RadioValg navn={'Opphold midt i 100%'} sprefVariant={'opphold-midt-i'} />
                 <RadioValg navn={'Kombinert 80 og 100%'} sprefVariant={'80% og 100%'} />
             </form>
 
-            <Utbetaling key={sprefUtbetaling?._id} utbetaling={sprefUtbetaling} />
+            <Utbetaling
+                oppdrag={oppdrag.find((u) => u.fagområde === 'SPREF')}
+                utbetalingFordeling={utbetalingFordeling}
+                setUtbetalingFordeling={setUtbetalingFordeling}
+            />
+            <Utbetaling
+                oppdrag={oppdrag.find((u) => u.fagområde === 'SP')}
+                utbetalingFordeling={utbetalingFordeling}
+                setUtbetalingFordeling={setUtbetalingFordeling}
+            />
         </div>
     )
 }
@@ -115,7 +196,6 @@ function dagerSomErSykedager(fom: LocalDate, tom: LocalDate) {
     return dager
 }
 
-
 function genererUtbetalingslinjeDto(dagsats: number, fom: LocalDate, tom: LocalDate, grad: number): UtbetalingslinjeDto {
 
     const beløp = Math.floor(dagsats * grad / 100)
@@ -123,88 +203,21 @@ function genererUtbetalingslinjeDto(dagsats: number, fom: LocalDate, tom: LocalD
     return {
         fom: fom,
         tom: tom,
-        dagsats: dagsats,
-        beløp: beløp,
+        dagsats: beløp,
+        totalbeløp: beløp * sykedager,
         grad: grad,
-        sykedager: sykedager
+        stønadsdager: sykedager
     }
-}
-
-function genererUtbetalingslinjeDtoListe(dagsats: number, fomTom: FomTom, sprefVariant: SprefVariant): UtbetalingslinjeDto[] {
-    const dagerInkludertIFomTom = finnDagerInkludertIFomTom(fomTom)
-    switch (sprefVariant) {
-        case '100%':
-        case '80%': {
-            let grad = 100
-            if (sprefVariant === '80%') {
-                grad = 80
-            }
-            return [ genererUtbetalingslinjeDto(dagsats, fomTom.fom, fomTom.tom, grad) ]
-        }
-        case '80% og 100%': {
-            const førsteTom = fomTom.fom.plusDays(Math.floor(dagerInkludertIFomTom / 2))
-            const nesteFom = førsteTom.plusDays(1)
-            return [
-                genererUtbetalingslinjeDto(dagsats, fomTom.fom, førsteTom, 80),
-                genererUtbetalingslinjeDto(dagsats, nesteFom, fomTom.tom, 100)
-            ]
-        }
-        case 'opphold-midt-i': {
-            const tredjedel = Math.floor(dagerInkludertIFomTom / 3)
-            const førsteTom = fomTom.fom.plusDays(tredjedel)
-            const nesteFom = førsteTom.plusDays(tredjedel)
-            return [
-                genererUtbetalingslinjeDto(dagsats, fomTom.fom, førsteTom, 100),
-                genererUtbetalingslinjeDto(dagsats, nesteFom, fomTom.tom, 100)
-            ]
-        }
-
-    }
-    window.alert('Ukjent spref variant!!')
-    throw Error('Ukjent spref variant')
 }
 
 function totalbeløpFraUtbetalingslinjer(utbetalingslinjer: UtbetalingslinjeDto[]): number {
     return utbetalingslinjer.reduce((a, b) => {
-        return a + (b.beløp * b.sykedager)
+        return a + (b.dagsats * b.stønadsdager)
     }, 0)
 }
 
 function totalSykedagerFraUtbetalingslinjer(utbetalingslinjer: UtbetalingslinjeDto[]): number {
     return utbetalingslinjer.reduce((a, b) => {
-        return a + b.sykedager
+        return a + b.stønadsdager
     }, 0)
-}
-
-export function skapSprefUtbetaling(dagsats: number, fomTom: FomTom, sprefVariant: SprefVariant, orgnr: string) {
-    const utbetalingslinjer = genererUtbetalingslinjeDtoListe(dagsats, fomTom, sprefVariant)
-    return {
-        _id: v4(),
-        mottaker:  orgnr,
-        fagområde: 'SPREF',
-        totalbeløp: totalbeløpFraUtbetalingslinjer(utbetalingslinjer),
-        utbetalingslinjer: utbetalingslinjer
-    }
-}
-
-
-export function sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling: UtbetalingDto): OppdragDto {
-    const utbetalingslinjerV2 = sprefUtbetaling.utbetalingslinjer.map((ut) => {
-        return {
-            fom: ut.fom,
-            tom: ut.tom,
-            dagsats: ut.beløp,
-            totalbeløp: ut.beløp * ut.sykedager,
-            grad: ut.grad,
-            stønadsdager: ut.sykedager
-        }
-    })
-
-    return {
-        mottaker: sprefUtbetaling.mottaker,
-        fagområde: sprefUtbetaling.fagområde,
-        fagsystemId: v4(),
-        nettoBeløp: sprefUtbetaling.totalbeløp,
-        utbetalingslinjer: utbetalingslinjerV2
-    }
 }

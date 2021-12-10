@@ -1,43 +1,33 @@
 import { DayOfWeek } from '@js-joda/core'
 import React, { Dispatch, useEffect } from 'react'
 
-import { sprefUtbetalingTilArbeidsgiverOppdrag } from './SprefUtbetaling'
-import { FomTom, UtbetalingDto } from './types/VedtakV1'
-import { OppdragDto, UtbetalingdagDto } from './types/VedtakV2'
+import { FomTom } from './types/VedtakV1'
+import { OppdragDto, UtbetalingdagDto, UtbetalingslinjeDto } from './types/VedtakV2'
 
 
 interface Props {
     utbetalingsdager: UtbetalingdagDto[],
     setUtbetalingsdager: Dispatch<React.SetStateAction<UtbetalingdagDto[]>>,
-    sprefUtbetaling: UtbetalingDto | undefined,
+    oppdrag: OppdragDto[],
     fomTom: FomTom,
 }
 
 
-export default ({ utbetalingsdager, setUtbetalingsdager, sprefUtbetaling, fomTom }: Props) => {
+export default ({ utbetalingsdager, setUtbetalingsdager, oppdrag, fomTom }: Props) => {
 
 
     useEffect(() => {
-        if (!sprefUtbetaling) {
-            return
-        }
-        const arbeidsgiverOppdrag = sprefUtbetalingTilArbeidsgiverOppdrag(sprefUtbetaling!)
-        setUtbetalingsdager(skapUtbetalingsdager(arbeidsgiverOppdrag))
+        const utbetalingsLinjer = oppdrag.flatMap((o) => o.utbetalingslinjer)
+        setUtbetalingsdager(skapUtbetalingsdager(utbetalingsLinjer))
 
         // eslint-disable-next-line
-    }, [setUtbetalingsdager, sprefUtbetaling])
+    }, [ setUtbetalingsdager, oppdrag ])
 
-    function skapUtbetalingsdager(oppdrag: OppdragDto): UtbetalingdagDto[] {
+    function skapUtbetalingsdager(utbetalingslinjer: UtbetalingslinjeDto[]): UtbetalingdagDto[] {
         const dager: UtbetalingdagDto[] = []
-        let arbeidsgiverperiode = 16
         let dag = fomTom.fom
 
-        while (dag < oppdrag.utbetalingslinjer[0].fom && arbeidsgiverperiode-- > 0) {
-            dager.push({ dato: dag, type: 'ArbeidsgiverperiodeDag', begrunnelser: [] })
-            dag = dag.plusDays(1)
-        }
-
-        oppdrag.utbetalingslinjer.forEach((linje) => {
+        utbetalingslinjer.forEach((linje) => {
             dag = linje.fom
             while (dag <= linje.tom) {
                 if (dag.dayOfWeek() === DayOfWeek.SATURDAY || dag.dayOfWeek() === DayOfWeek.SUNDAY) {

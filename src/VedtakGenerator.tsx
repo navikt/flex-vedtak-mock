@@ -10,11 +10,15 @@ import { Orgnummer } from './Orgnummer'
 import SendSomNyttVedtak from './SendSomNyttVedtak'
 import SlettVedtak from './SlettVedtak'
 import SprefUtbetaling from './SprefUtbetaling'
-import SpUtbetaling from './SpUtbetaling'
 import Sykedager from './Sykedager'
 import { SprefVariant } from './types/SprefVariant'
-import { FomTom, UtbetalingDto } from './types/VedtakV1'
-import { Begrensning, GrunnlagForSykepengegrunnlagPerArbeidsgiver, UtbetalingdagDto } from './types/VedtakV2'
+import { FomTom } from './types/VedtakV1'
+import {
+    Begrensning,
+    GrunnlagForSykepengegrunnlagPerArbeidsgiver,
+    OppdragDto,
+    UtbetalingdagDto
+} from './types/VedtakV2'
 import Utbetalingsdager from './Utbetalingsdager'
 import Utbetalingstype from './Utbetalingstype'
 
@@ -33,7 +37,7 @@ function VedtakGenerator() {
     const [ forbrukteSykedager, setForbrukteSykedager ] = useState<number>(0)
     const [ gjenstaendeSykedager, setGjenstaendeSykedager ] = useState<number>(195)
     const [ foreløpigBeregnetSluttPåSykepenger, setForeløpigBeregnetSluttPåSykepenger ] = useState<LocalDate>(LocalDate.now())
-    const [ sprefUtbetaling, setSprefUtbetaling ] = useState<UtbetalingDto>()
+    const [ oppdrag, setOppdrag ] = useState<OppdragDto[]>([])
     const [ utbetalingsdager, setUtbetalingsdager ] = useState<UtbetalingdagDto[]>([])
     const [ utbetalingstype, setUtbetalingstype ] = useState<string>('UTBETALING')
 
@@ -81,8 +85,8 @@ function VedtakGenerator() {
                 automatiskBehandling={automatiskBehandling}
                 setAutomatiskBehandling={setAutomatiskBehandling} />
             <SprefUtbetaling
-                setSprefUtbetaling={setSprefUtbetaling}
-                sprefUtbetaling={sprefUtbetaling}
+                setOppdrag={setOppdrag}
+                oppdrag={oppdrag}
                 setForbrukteSykedager={setForbrukteSykedager}
                 dagsats={dagsats}
                 orgnr={orgnummer}
@@ -90,9 +94,8 @@ function VedtakGenerator() {
                 fomTom={fomTom}
                 setSprefvariant={setSprefvariant}
                 sprefvariant={sprefvariant} />
-            <SpUtbetaling />
             <Utbetalingsdager
-                sprefUtbetaling={sprefUtbetaling}
+                oppdrag={oppdrag}
                 setUtbetalingsdager={setUtbetalingsdager}
                 utbetalingsdager={utbetalingsdager}
                 fomTom={fomTom}
@@ -119,7 +122,7 @@ function VedtakGenerator() {
                 utbetalingstype={utbetalingstype}
                 fomTom={fomTom}
                 orgnummer={orgnummer}
-                sprefUtbetaling={sprefUtbetaling}
+                oppdrag={oppdrag}
                 utbetalingsdager={utbetalingsdager}
                 sykepengegrunnlag={sykepengegrunnlag}
                 grunnlagForSykepengegrunnag={grunnlagForSykepengegrunnlag}
