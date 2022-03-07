@@ -29,6 +29,7 @@ interface Props {
     grunnlagForSykepengegrunnag: number,
     begrensning: Begrensning,
     foreløpigBeregnetSluttPåSykepenger: LocalDate,
+    vedtakFattetTidspunkt: LocalDate
 }
 
 function SendSomNyttVedtak({
@@ -46,6 +47,7 @@ function SendSomNyttVedtak({
     grunnlagForSykepengegrunnag,
     begrensning,
     foreløpigBeregnetSluttPåSykepenger,
+    vedtakFattetTidspunkt
 }: Props) {
 
     const { data: fodselsnummer } = useFodselsnummer()
@@ -87,7 +89,8 @@ function SendSomNyttVedtak({
             sykepengegrunnlag: sykepengegrunnlag,
             grunnlagForSykepengegrunnlag: grunnlagForSykepengegrunnag,
             begrensning: begrensning,
-            utbetalingId: utbetalingUtbetalt.utbetalingId
+            utbetalingId: utbetalingUtbetalt.utbetalingId,
+            vedtakFattetTidspunkt: vedtakFattetTidspunkt
         }
         vedtak.grunnlagForSykepengegrunnlagPerArbeidsgiver![orgnummer] = månedsinntekt * 12
 
