@@ -40,6 +40,7 @@ function VedtakGenerator() {
     const [ oppdrag, setOppdrag ] = useState<OppdragDto[]>([])
     const [ utbetalingsdager, setUtbetalingsdager ] = useState<UtbetalingdagDto[]>([])
     const [ utbetalingstype, setUtbetalingstype ] = useState<string>('UTBETALING')
+    const [ vedtakFattetTidspunkt ] = useState<LocalDate>(LocalDate.now())
 
     const [ fomTom, setFomTom ] = useState<FomTom>({
         fom: LocalDate.now().minusDays(14),
@@ -128,6 +129,7 @@ function VedtakGenerator() {
                 grunnlagForSykepengegrunnag={grunnlagForSykepengegrunnlag}
                 begrensning={begrensning}
                 foreløpigBeregnetSluttPåSykepenger={foreløpigBeregnetSluttPåSykepenger}
+                vedtakFattetTidspunkt={vedtakFattetTidspunkt}
             />
             <SlettVedtak />
             <EksisterendeVedtak />
